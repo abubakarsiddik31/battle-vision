@@ -1,17 +1,57 @@
 # Experiments Summary
 
-Generated: 2026-03-09 03:48:07
+Generated: 2026-03-09 04:09:45
 
-Total Experiments: 2
+Total Experiments: 3
 
 ## Quick Reference
 
 | Date | Experiment | Architecture | Pretrained | Micro F1 | Acc | Tags |
 |------|------------|--------------|------------|----------|-----|------|
+| 2026-03-09 | resnet50_imagenet_20260309_040438 | resnet50 | imagenet | 0.7443 | 0.5471 | baseline,resnet50,lo |
 | 2026-03-09 | resnet50_imagenet_20260309_034115 | resnet50 | imagenet | 0.7598 | 0.6118 | baseline,resnet50,in |
 | 2026-03-09 | resnet50_imagenet_20260309_030219 | resnet50 | imagenet | 0.3470 | 0.1529 | baseline,resnet50,in |
 
 ## Detailed Results
+
+### resnet50_imagenet_20260309_040438
+
+**ID:** `a03df067`
+
+**Date:** 2026-03-09T04:04:39.494347
+
+**Duration:** 303.3s
+
+**Tags:** `baseline,resnet50,longer-training`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `resnet50`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.5470588235294118
+- Micro F1: 0.7442922374429224
+- Micro Precision: 0.740909090909091
+- Micro Recall: 0.7477064220183486
+- Macro F1: 0.7641156836285737
+
+**Per-Class F1:**
+- Artilary: 0.8292682926829269
+- Missile: 0.7692307692307692
+- Radar: 0.8260869565217391
+- M. Rocket Launcher: 0.830188679245283
+- Soldier: 0.736842105263158
+- Tank: 0.7466666666666667
+- Vehicle: 0.6105263157894737
+
+---
 
 ### resnet50_imagenet_20260309_034115
 
