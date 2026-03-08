@@ -42,6 +42,7 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 <!-- Auto-generated summary will be added below -->
 | Date | Experiment | Architecture | F1 | Accuracy | Notes |
 |------|------------|--------------|-----|----------|-------|
+| 2026-03-09 | resnet18_imagenet_20260309_043 | resnet18 | 0.7189 | 0.5529 | arch-explore,resnet18 |
 | 2026-03-09 | efficientnet_b0_imagenet_20260 | efficientnet_b0 | 0.7653 | 0.5941 | baseline,efficientnet,arch-com |
 | 2026-03-09 | resnet50_imagenet_20260309_040 | resnet50 | 0.7443 | 0.5471 | baseline,resnet50,longer-train |
 | 2026-03-09 | resnet50_imagenet_20260309_034 | resnet50 | 0.7598 | 0.6118 | baseline,resnet50,initial-run |
