@@ -29,6 +29,10 @@ from .trainer import (
     TrackioLogger,
     create_trainer,
 )
+from .experiment_logger import (
+    ExperimentLogger,
+    format_results_for_logging,
+)
 
 __all__ = [
     # Dataset
@@ -53,4 +57,7 @@ __all__ = [
     "MultiLabelMetrics",
     "TrackioLogger",
     "create_trainer",
+    # Experiment Logging
+    "ExperimentLogger",
+    "format_results_for_logging",
 ]

@@ -22,14 +22,17 @@ except ImportError:
 from .dataloaders import create_dataloaders
 from .dataset import KiitMitaDataset, load_metadata
 from .models import create_model
+from .experiment_logger import ExperimentLogger, format_results_for_logging
 
 
 # Paths
 PROJECT_ROOT = Path("/home/abubakar/Desktop/Research/DL-assignment")
 CHECKPOINT_DIR = PROJECT_ROOT / "checkpoints"
 RESULTS_DIR = PROJECT_ROOT / "results"
+EXPERIMENTS_DIR = RESULTS_DIR / "experiments"
 CHECKPOINT_DIR.mkdir(exist_ok=True)
 RESULTS_DIR.mkdir(exist_ok=True)
+EXPERIMENTS_DIR.mkdir(exist_ok=True)
 
 # Load metadata
 METADATA = load_metadata(str(PROJECT_ROOT / "data" / "metadata.json"))
@@ -141,13 +144,14 @@ class MultiLabelMetrics:
 
 class Trainer:
     """
-    Trainer class with trackio integration for multi-label classification.
+    Trainer class with trackio and experiment logging for multi-label classification.
 
     Supports:
     - Transfer learning with freeze/fine-tune phases
     - Automatic checkpointing
     - trackio experiment tracking (local-first, free)
-    - Comprehensive metrics logging
+    - Comprehensive experiment logging with notes
+    - Iteration tracking for tweaks
     """
 
     def __init__(
@@ -158,6 +162,9 @@ class Trainer:
         learning_rate: float = 1e-3,
         use_trackio: bool = True,
         trackio_project: str = "kiit-mita-classification",
+        experiment_name: Optional[str] = None,
+        experiment_notes: Optional[str] = None,
+        experiment_tags: Optional[List[str]] = None,
     ):
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
         self.model = model.to(self.device)
@@ -167,6 +174,23 @@ class Trainer:
         # Metrics
         self.train_metrics = MultiLabelMetrics(NUM_CLASSES, CLASS_NAMES)
         self.val_metrics = MultiLabelMetrics(NUM_CLASSES, CLASS_NAMES)
+
+        # Experiment Logger
+        self.experiment_logger = ExperimentLogger(
+            project=trackio_project,
+            experiment_name=experiment_name or f"{model_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            notes=experiment_notes,
+            tags=experiment_tags or [model_name],
+        )
+
+        # Log initial config
+        self.experiment_logger.log_config({
+            "model": model_name,
+            "learning_rate": learning_rate,
+            "num_classes": NUM_CLASSES,
+            "classes": CLASS_NAMES,
+            "device": str(self.device),
+        })
 
         # Trackio
         self.use_trackio = use_trackio and TRACKIO_AVAILABLE
@@ -179,10 +203,23 @@ class Trainer:
                     "learning_rate": learning_rate,
                     "num_classes": NUM_CLASSES,
                     "classes": CLASS_NAMES,
+                    "experiment_id": self.experiment_logger.experiment_id,
                 }
             )
 
         print(f"Trainer initialized on {self.device}")
+        print(f"Experiment ID: {self.experiment_logger.experiment_id}")
+
+    def add_note(self, note: str):
+        """Add a note to the experiment log."""
+        self.experiment_logger.add_note(note)
+        if self.trackio_logger:
+            # Log note to trackio as well
+            self.trackio_logger.log({"note": note})
+
+    def add_tag(self, tag: str):
+        """Add a tag to the experiment."""
+        self.experiment_logger.add_tag(tag)
 
     def train_one_epoch(self, train_loader: DataLoader, optimizer: optim.Optimizer) -> float:
         """Train for one epoch."""
@@ -231,12 +268,13 @@ class Trainer:
         return avg_loss, metrics.compute()
 
     def log_metrics(self, epoch: int, phase: str, loss: float, metrics: Dict, step: int):
-        """Log metrics to console and trackio."""
+        """Log metrics to console, trackio, and experiment logger."""
         prefix = f"[{phase.upper()}]" if phase else ""
         print(f"\n{prefix} Epoch {epoch}: Loss={loss:.4f}")
         print(f"  Exact Match Acc: {metrics['exact_match_accuracy']:.4f}")
         print(f"  Micro F1: {metrics['micro']['f1']:.4f} | Macro F1: {metrics['macro']['f1']:.4f}")
 
+        # Log to trackio
         if self.trackio_logger:
             log_dict = {
                 f"{phase}/loss": loss,
@@ -251,7 +289,16 @@ class Trainer:
             for class_name in CLASS_NAMES:
                 if class_name in metrics:
                     log_dict[f"{phase}/{class_name}_f1"] = metrics[class_name]["f1"]
-            self.trackio_logger.log(log_dict, step=step)
+            self.trackio_logger.log(log_dict)
+
+        # Log to experiment logger
+        epoch_metrics = {
+            "epoch": epoch,
+            "phase": phase,
+            "loss": loss,
+            **format_results_for_logging(metrics),
+        }
+        self.experiment_logger.log_metrics(epoch_metrics, step=step)
 
     def save_checkpoint(self, epoch: int, loss: float, metrics: Dict, phase: str):
         """Save model checkpoint."""
@@ -261,6 +308,7 @@ class Trainer:
             "loss": loss,
             "metrics": metrics,
             "model_name": self.model_name,
+            "experiment_id": self.experiment_logger.experiment_id,
         }
         path = CHECKPOINT_DIR / f"{self.model_name}_{phase}_best.pth"
         torch.save(checkpoint, path)
@@ -277,10 +325,23 @@ class Trainer:
         """Train with transfer learning strategy."""
         global_step = 0
 
+        # Log training config
+        self.experiment_logger.log_config({
+            "num_epochs_head": num_epochs_head,
+            "num_epochs_finetune": num_epochs_finetune,
+            "train_samples": len(train_loader.dataset),
+            "val_samples": len(val_loader.dataset),
+        })
+
         # Phase 1: Train head only
         print("\n" + "=" * 60)
         print("PHASE 1: Training classification head (backbone frozen)")
         print("=" * 60)
+
+        self.experiment_logger.start_iteration(
+            "head_training",
+            {"phase": "head", "epochs": num_epochs_head, "lr": learning_rate}
+        )
 
         for param in self.model.backbone.parameters():
             param.requires_grad = False
@@ -295,6 +356,7 @@ class Trainer:
             val_loss, val_metrics_dict = self.evaluate(val_loader, self.val_metrics)
 
             self.log_metrics(epoch + 1, "head", val_loss, val_metrics_dict, global_step)
+            self.experiment_logger.log_iteration_metrics(val_metrics_dict)
 
             if val_metrics_dict["micro"]["f1"] > best_val_f1:
                 best_val_f1 = val_metrics_dict["micro"]["f1"]
@@ -302,10 +364,17 @@ class Trainer:
 
             global_step += 1
 
+        self.experiment_logger.finish_iteration({"best_val_f1": best_val_f1})
+
         # Phase 2: Fine-tune entire network
         print("\n" + "=" * 60)
         print("PHASE 2: Fine-tuning entire network")
         print("=" * 60)
+
+        self.experiment_logger.start_iteration(
+            "finetuning",
+            {"phase": "finetune", "epochs": num_epochs_finetune, "lr": learning_rate / 10}
+        )
 
         for param in self.model.parameters():
             param.requires_grad = True
@@ -320,12 +389,15 @@ class Trainer:
             val_loss, val_metrics_dict = self.evaluate(val_loader, self.val_metrics)
 
             self.log_metrics(epoch + 1, "finetune", val_loss, val_metrics_dict, global_step)
+            self.experiment_logger.log_iteration_metrics(val_metrics_dict)
 
             if val_metrics_dict["micro"]["f1"] > best_val_f1:
                 best_val_f1 = val_metrics_dict["micro"]["f1"]
                 self.save_checkpoint(epoch, val_loss, val_metrics_dict, "finetune")
 
             global_step += 1
+
+        self.experiment_logger.finish_iteration({"best_val_f1": best_val_f1})
 
         if self.trackio_logger:
             self.trackio_logger.finish()
@@ -344,6 +416,18 @@ class Trainer:
         print(f"TRAINING {self.model_name.upper()} (FROM SCRATCH)")
         print("=" * 60)
 
+        # Log training config
+        self.experiment_logger.log_config({
+            "num_epochs": num_epochs,
+            "train_samples": len(train_loader.dataset),
+            "val_samples": len(val_loader.dataset),
+        })
+
+        self.experiment_logger.start_iteration(
+            "from_scratch",
+            {"epochs": num_epochs, "lr": learning_rate}
+        )
+
         optimizer = optim.Adam(self.model.parameters(), lr=learning_rate)
         best_val_f1 = 0.0
         global_step = 0
@@ -355,6 +439,7 @@ class Trainer:
             val_loss, val_metrics_dict = self.evaluate(val_loader, self.val_metrics)
 
             self.log_metrics(epoch + 1, "", val_loss, val_metrics_dict, global_step)
+            self.experiment_logger.log_iteration_metrics(val_metrics_dict)
 
             if val_metrics_dict["micro"]["f1"] > best_val_f1:
                 best_val_f1 = val_metrics_dict["micro"]["f1"]
@@ -362,10 +447,26 @@ class Trainer:
 
             global_step += 1
 
+        self.experiment_logger.finish_iteration({"best_val_f1": best_val_f1})
+
         if self.trackio_logger:
             self.trackio_logger.finish()
 
         return self.model
+
+    def finish_experiment(self, test_results: Optional[Dict] = None):
+        """Finish the experiment and save all results."""
+        print("\n" + "=" * 60)
+        print("FINISHING EXPERIMENT")
+        print("=" * 60)
+
+        summary, exp_file = self.experiment_logger.finish(test_results)
+        print(f"Experiment saved to: {exp_file}")
+
+        # Print summary
+        self.experiment_logger.print_summary()
+
+        return summary, exp_file
 
 
 def create_trainer(
@@ -373,7 +474,23 @@ def create_trainer(
     learning_rate: float = 1e-3,
     use_trackio: bool = True,
     device: Optional[str] = None,
+    experiment_name: Optional[str] = None,
+    experiment_notes: Optional[str] = None,
+    experiment_tags: Optional[List[str]] = None,
 ) -> Trainer:
     """Factory function to create a trainer with a model."""
     model = create_model(model_type, num_classes=NUM_CLASSES, pretrained=True)
-    return Trainer(model, model_type, device, learning_rate, use_trackio)
+    return Trainer(
+        model,
+        model_type,
+        device,
+        learning_rate,
+        use_trackio,
+        experiment_name=experiment_name,
+        experiment_notes=experiment_notes,
+        experiment_tags=experiment_tags,
+    )
+
+
+# Import datetime for experiment naming
+from datetime import datetime
