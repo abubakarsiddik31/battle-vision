@@ -285,7 +285,7 @@ def create_model_from_config(config):
     pretrained = config["pretrained"] != "none"
 
     model = create_model(
-        model_type=architecture.replace("_", ""),  # Handle naming differences
+        model_type=architecture,
         num_classes=NUM_CLASSES,
         pretrained=pretrained,
     )
