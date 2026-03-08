@@ -466,6 +466,18 @@ class Trainer:
         # Print summary
         self.experiment_logger.print_summary()
 
+        # Update markdown summary for git tracking
+        try:
+            import subprocess
+            script_path = PROJECT_ROOT / "scripts" / "update_experiments_summary.py"
+            if script_path.exists():
+                subprocess.run(["python", str(script_path)], check=False, cwd=PROJECT_ROOT)
+                summary_path = PROJECT_ROOT / "results" / "experiments" / "SUMMARY.md"
+                print(f"\nMarkdown summary updated: {summary_path}")
+                print(f"Git command: git add results/experiments/ && git commit -m 'Update experiments'")
+        except Exception as e:
+            print(f"Note: Could not update markdown summary: {e}")
+
         return summary, exp_file
 
 

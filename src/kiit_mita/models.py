@@ -222,29 +222,91 @@ class SimpleResNetBackbone(nn.Module):
         return x
 
 
+def create_resnet_variant(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create ResNet variants (18, 34, 50)."""
+    try:
+        if variant == "resnet18":
+            from torchvision.models import resnet18, ResNet18_Weights
+            backbone = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "resnet34":
+            from torchvision.models import resnet34, ResNet34_Weights
+            backbone = resnet34(weights=ResNet34_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "resnet50":
+            from torchvision.models import resnet50, ResNet50_Weights
+            backbone = resnet50(weights=ResNet50_Weights.IMAGENET1K_V1 if pretrained else None)
+        else:
+            raise ValueError(f"Unknown ResNet variant: {variant}")
+    except ImportError:
+        backbone = SimpleResNetBackbone()
+    return MultiLabelClassifier(backbone, num_classes)
+
+
+def create_efficientnet_variant(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create EfficientNet variants (b0, b1)."""
+    try:
+        if variant == "efficientnet_b0":
+            from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights
+            backbone = efficientnet_b0(weights=EfficientNet_B0_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "efficientnet_b1":
+            from torchvision.models import efficientnet_b1, EfficientNet_B1_Weights
+            backbone = efficientnet_b1(weights=EfficientNet_B1_Weights.IMAGENET1K_V1 if pretrained else None)
+        else:
+            raise ValueError(f"Unknown EfficientNet variant: {variant}")
+    except ImportError:
+        return CustomCNN(num_classes)
+    return MultiLabelClassifier(backbone, num_classes)
+
+
+def create_vit_variant(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create Vision Transformer variants (b_16, b_32)."""
+    try:
+        if variant == "vit_b_16":
+            from torchvision.models import vit_b_16, ViT_B_16_Weights
+            backbone = vit_b_16(weights=ViT_B_16_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "vit_b_32":
+            from torchvision.models import vit_b_32, ViT_B_32_Weights
+            backbone = vit_b_32(weights=ViT_B_32_Weights.IMAGENET1K_V1 if pretrained else None)
+        else:
+            raise ValueError(f"Unknown ViT variant: {variant}")
+    except ImportError:
+        return CustomCNN(num_classes)
+    return MultiLabelClassifier(backbone, num_classes)
+
+
 def create_model(model_type: str = "resnet18", num_classes: int = 7, pretrained: bool = True) -> nn.Module:
     """
     Factory function to create models.
 
     Args:
-        model_type: Type of model ('resnet18', 'efficientnet', 'vit', 'custom')
+        model_type: Type of model ('resnet18', 'resnet34', 'resnet50', 'efficientnet_b0',
+                      'efficientnet_b1', 'vit_b_16', 'vit_b_32', 'custom_cnn')
         num_classes: Number of output classes
         pretrained: Whether to use pre-trained weights (for transfer learning models)
 
     Returns:
         Model instance
     """
-    models_map = {
-        "resnet18": create_resnet18_classifier,
-        "efficientnet": create_efficientnet_classifier,
-        "vit": create_vit_classifier,
-        "custom": lambda **kwargs: CustomCNN(num_classes),
-    }
+    # Map model types to their creators
+    if model_type.startswith("resnet"):
+        return create_resnet_variant(model_type, num_classes, pretrained)
+    elif model_type.startswith("efficientnet"):
+        return create_efficientnet_variant(model_type, num_classes, pretrained)
+    elif model_type.startswith("vit"):
+        return create_vit_variant(model_type, num_classes, pretrained)
+    elif model_type == "custom_cnn":
+        return CustomCNN(num_classes)
+    else:
+        # Legacy support for old model names
+        models_map = {
+            "resnet18": lambda: create_resnet_variant("resnet18", num_classes, pretrained),
+            "efficientnet": lambda: create_efficientnet_variant("efficientnet_b0", num_classes, pretrained),
+            "vit": lambda: create_vit_variant("vit_b_16", num_classes, pretrained),
+            "custom": lambda: CustomCNN(num_classes),
+        }
+        if model_type in models_map:
+            return models_map[model_type]()
 
-    if model_type not in models_map:
-        raise ValueError(f"Unknown model type: {model_type}. Choose from {list(models_map.keys())}")
-
-    return models_map[model_type](num_classes=num_classes, pretrained=pretrained)
+    raise ValueError(f"Unknown model type: {model_type}")
 
 
 if __name__ == "__main__":
