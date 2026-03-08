@@ -1,0 +1,16 @@
+# Core Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Image Processing
+Pillow>=9.0.0
+numpy>=1.21.0
+
+# Experiment Tracking
+wandb>=0.15.0
+
+# Progress Bars
+tqdm>=4.65.0
+
+# Configuration (optional)
+pyyaml>=6.0

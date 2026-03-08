@@ -1,0 +1,73 @@
+# Default training configuration for KIIT-MiTA classification
+
+# Dataset
+dataset:
+  root: "KIIT-MiTA"
+  data_dir: "data"
+  image_size: 224
+  num_classes: 7
+  class_names:
+    - Artilary
+    - Missile
+    - Radar
+    - M. Rocket Launcher
+    - Soldier
+    - Tank
+    - Vehicle
+
+# Training
+training:
+  batch_size: 32
+  num_workers: 4
+  pin_memory: true
+  learning_rate: 0.001
+  weight_decay: 0.0001
+
+# Transfer Learning Schedule
+transfer_learning:
+  epochs_head: 10
+  epochs_finetune: 20
+  lr_head: 0.001
+  lr_finetune: 0.0001
+
+# Custom CNN Schedule (from scratch)
+custom_cnn:
+  epochs: 30
+  learning_rate: 0.001
+
+# Data Augmentation
+augmentation:
+  train:
+    random_resized_crop: true
+    scale: [0.8, 1.0]
+    horizontal_flip: 0.5
+    rotation: 15
+    color_jitter: [0.2, 0.2, 0.2]
+
+# Evaluation
+evaluation:
+  metrics:
+    - exact_match_accuracy
+    - micro_f1
+    - macro_f1
+    - per_class_metrics
+  threshold: 0.5
+
+# Checkpointing
+checkpointing:
+  save_best: true
+  save_last: true
+  monitor: "micro_f1"
+  mode: "max"
+
+# Logging
+logging:
+  use_wandb: true
+  wandb_project: "kiit-mita-classification"
+  log_interval: 10
+
+# Paths
+paths:
+  checkpoints: "checkpoints"
+  results: "results"
+  logs: "logs"

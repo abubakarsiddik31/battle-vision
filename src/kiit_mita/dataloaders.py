@@ -9,7 +9,7 @@ import torch
 from torch.utils.data import DataLoader
 from PIL import Image
 
-from dataset import KiitMitaDataset
+from .dataset import KiitMitaDataset
 
 
 # Dataset paths
