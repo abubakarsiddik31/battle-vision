@@ -1,6 +1,179 @@
 {
   "experiments": [
     {
+      "experiment_id": "ed7424bf",
+      "experiment_name": "resnet34_imagenet_20260309_043933",
+      "start_time": "2026-03-09T04:39:58.238862",
+      "end_time": "2026-03-09T04:43:14.910856",
+      "duration_seconds": 196.671994,
+      "tags": [
+        "arch-explore,resnet34"
+      ],
+      "config": {
+        "model": "resnet34",
+        "learning_rate": 0.001,
+        "num_classes": 7,
+        "classes": [
+          "Artilary",
+          "Missile",
+          "Radar",
+          "M. Rocket Launcher",
+          "Soldier",
+          "Tank",
+          "Vehicle"
+        ],
+        "device": "cuda",
+        "architecture": "resnet34",
+        "pretrained": "imagenet",
+        "custom_weights_path": null,
+        "epochs_head": 10,
+        "epochs_finetune": 20,
+        "epochs_total": 30,
+        "lr_head": 0.001,
+        "lr_finetune": 0.0001,
+        "lr_scratch": 0.001,
+        "optimizer": "adam",
+        "weight_decay": 0.0,
+        "momentum": null,
+        "batch_size": 32,
+        "image_size": 224,
+        "num_workers": 4,
+        "dropout": 0.3,
+        "freeze_batch_norm": false,
+        "label_smoothing": 0.0,
+        "pos_weight": 1.0,
+        "mixed_precision": false,
+        "class_names": [
+          "Artilary",
+          "Missile",
+          "Radar",
+          "M. Rocket Launcher",
+          "Soldier",
+          "Tank",
+          "Vehicle"
+        ],
+        "command_line_args": {
+          "architecture": "resnet34",
+          "pretrained": "imagenet",
+          "custom_weights": null,
+          "epochs_head": 10,
+          "epochs_finetune": 20,
+          "epochs": 30,
+          "lr_head": 0.001,
+          "lr_finetune": 0.0001,
+          "lr_scratch": 0.001,
+          "optimizer": "adam",
+          "weight_decay": 0.0,
+          "momentum": 0.9,
+          "batch_size": 32,
+          "image_size": 224,
+          "num_workers": 4,
+          "dropout": 0.3,
+          "freeze_bn": false,
+          "label_smoothing": 0.0,
+          "pos_weight": 1.0,
+          "device": null,
+          "mixed_precision": false,
+          "notes": "ResNet34 - middle ground between ResNet18 and ResNet50",
+          "tags": [
+            "arch-explore,resnet34"
+          ],
+          "exp_name": "resnet34_imagenet_20260309_043933",
+          "no_trackio": false,
+          "trackio_project": "kiit-mita-classification"
+        },
+        "git_commit": "b3b3f44bcee82f9a0cc5a12b1f107d213a497f01",
+        "num_epochs_head": 10,
+        "num_epochs_finetune": 20,
+        "train_samples": 1360,
+        "val_samples": 170
+      },
+      "final_results": {
+        "Artilary": {
+          "precision": 0.75,
+          "recall": 0.7894736842105263,
+          "f1": 0.7692307692307692,
+          "accuracy": 0.9470588235294117,
+          "tp": 15,
+          "fp": 5,
+          "fn": 4,
+          "tn": 146
+        },
+        "Missile": {
+          "precision": 0.72,
+          "recall": 0.72,
+          "f1": 0.72,
+          "accuracy": 0.9176470588235294,
+          "tp": 18,
+          "fp": 7,
+          "fn": 7,
+          "tn": 138
+        },
+        "Radar": {
+          "precision": 0.8888888888888888,
+          "recall": 0.8888888888888888,
+          "f1": 0.8888888888888888,
+          "accuracy": 0.9647058823529412,
+          "tp": 24,
+          "fp": 3,
+          "fn": 3,
+          "tn": 140
+        },
+        "M. Rocket Launcher": {
+          "precision": 0.76,
+          "recall": 0.6785714285714286,
+          "f1": 0.7169811320754718,
+          "accuracy": 0.9117647058823529,
+          "tp": 19,
+          "fp": 6,
+          "fn": 9,
+          "tn": 136
+        },
+        "Soldier": {
+          "precision": 0.6585365853658537,
+          "recall": 0.7714285714285715,
+          "f1": 0.7105263157894737,
+          "accuracy": 0.8705882352941177,
+          "tp": 27,
+          "fp": 14,
+          "fn": 8,
+          "tn": 121
+        },
+        "Tank": {
+          "precision": 0.75,
+          "recall": 0.5675675675675675,
+          "f1": 0.6461538461538462,
+          "accuracy": 0.8647058823529412,
+          "tp": 21,
+          "fp": 7,
+          "fn": 16,
+          "tn": 126
+        },
+        "Vehicle": {
+          "precision": 0.6739130434782609,
+          "recall": 0.6595744680851063,
+          "f1": 0.6666666666666667,
+          "accuracy": 0.8176470588235294,
+          "tp": 31,
+          "fp": 15,
+          "fn": 16,
+          "tn": 108
+        },
+        "micro": {
+          "precision": 0.7311320754716981,
+          "recall": 0.7110091743119266,
+          "f1": 0.7209302325581395,
+          "accuracy": 0.8991596638655462
+        },
+        "macro": {
+          "precision": 0.7430483596761434,
+          "recall": 0.7250720869645841,
+          "f1": 0.7312068026864453
+        },
+        "exact_match_accuracy": 0.5588235294117647
+      }
+    },
+    {
       "experiment_id": "e5fc6708",
       "experiment_name": "resnet18_imagenet_20260309_043357",
       "start_time": "2026-03-09T04:34:11.880623",
@@ -874,5 +1047,5 @@
       }
     }
   ],
-  "last_updated": "2026-03-09T04:36:28.142410"
+  "last_updated": "2026-03-09T04:43:14.917348"
 }
