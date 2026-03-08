@@ -42,3 +42,5 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 <!-- Auto-generated summary will be added below -->
 | Date | Experiment | Architecture | F1 | Accuracy | Notes |
 |------|------------|--------------|-----|----------|-------|
+| 2026-03-09 | resnet50_imagenet_20260309_034 | resnet50 | 0.7598 | 0.6118 | baseline,resnet50,initial-run |
+| 2026-03-09 | resnet50_imagenet_20260309_030 | resnet50 | 0.3470 | 0.1529 | baseline,resnet50,initial-run |

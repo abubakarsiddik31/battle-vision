@@ -1,3 +1,93 @@
 # Experiments Summary
 
-No experiments found.
+Generated: 2026-03-09 03:48:07
+
+Total Experiments: 2
+
+## Quick Reference
+
+| Date | Experiment | Architecture | Pretrained | Micro F1 | Acc | Tags |
+|------|------------|--------------|------------|----------|-----|------|
+| 2026-03-09 | resnet50_imagenet_20260309_034115 | resnet50 | imagenet | 0.7598 | 0.6118 | baseline,resnet50,in |
+| 2026-03-09 | resnet50_imagenet_20260309_030219 | resnet50 | imagenet | 0.3470 | 0.1529 | baseline,resnet50,in |
+
+## Detailed Results
+
+### resnet50_imagenet_20260309_034115
+
+**ID:** `b720ead5`
+
+**Date:** 2026-03-09T03:42:56.316555
+
+**Duration:** 308.6s
+
+**Tags:** `baseline`, `resnet50`, `initial-run`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `resnet50`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.611764705882353
+- Micro F1: 0.7598039215686274
+- Micro Precision: 0.8157894736842105
+- Micro Recall: 0.7110091743119266
+- Macro F1: 0.7725425152470571
+
+**Per-Class F1:**
+- Artilary: 0.8500000000000001
+- Missile: 0.7916666666666667
+- Radar: 0.923076923076923
+- M. Rocket Launcher: 0.7083333333333333
+- Soldier: 0.7000000000000001
+- Tank: 0.7605633802816901
+- Vehicle: 0.6741573033707866
+
+---
+
+### resnet50_imagenet_20260309_030219
+
+**ID:** `4bc915d1`
+
+**Date:** 2026-03-09T03:02:19.183261
+
+**Duration:** 91.6s
+
+**Tags:** `baseline`, `resnet50`, `initial-run`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `resnet50`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.15294117647058825
+- Micro F1: 0.3470031545741325
+- Micro Precision: 0.5555555555555556
+- Micro Recall: 0.25229357798165136
+- Macro F1: 0.24926826806958172
+
+**Per-Class F1:**
+- Artilary: 0.0
+- Missile: 0.06896551724137932
+- Radar: 0.6785714285714286
+- M. Rocket Launcher: 0.06666666666666667
+- Soldier: 0.0
+- Tank: 0.46153846153846156
+- Vehicle: 0.4691358024691358
+
+---
+
