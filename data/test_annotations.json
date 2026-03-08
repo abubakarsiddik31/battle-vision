@@ -1,0 +1,2593 @@
+[
+  {
+    "image_path": "test/images/image_s3r2_kiit_1346.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0
+    ],
+    "class_ids": [
+      4,
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_402.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    "class_ids": [
+      5,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_135.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0
+    ],
+    "class_ids": [
+      4,
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_386.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1535.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1676.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1560.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_845.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_604.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_27.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_329.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1559.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      1,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1112.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_288.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_920.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1450.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_973.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1204.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_937.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_745.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_298.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1069.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_913.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_660.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_261.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_629.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_870.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_418.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_175.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_150.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_172.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1205.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_498.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1554.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1099.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_441.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1077.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1061.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1421.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_853.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1400.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_781.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_41.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1238.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1006.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1228.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_862.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1020.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1
+    ],
+    "class_ids": [
+      4,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_19.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1514.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_17.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_390.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      1,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1532.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1386.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_523.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1102.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1132.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1322.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_571.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1313.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_873.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_339.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1419.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_703.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_57.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_517.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1
+    ],
+    "class_ids": [
+      0,
+      4,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_394.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1306.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_223.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_230.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_184.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_581.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_432.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      2,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1646.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1025.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1018.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_446.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1062.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_243.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_109.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_105.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      1
+    ],
+    "class_ids": [
+      4,
+      5,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1439.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_156.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1494.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1251.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_876.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1108.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_265.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1466.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_396.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1342.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1638.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_856.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1568.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1500.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_832.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_570.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_785.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1256.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      2,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_371.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_373.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_841.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1452.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      1,
+      1
+    ],
+    "class_ids": [
+      2,
+      5,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1137.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_252.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      1,
+      1
+    ],
+    "class_ids": [
+      2,
+      5,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1530.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_696.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1271.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1
+    ],
+    "class_ids": [
+      4,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_685.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1101.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      1
+    ],
+    "class_ids": [
+      5,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1591.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2,
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1543.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1481.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1691.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1623.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_281.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_340.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_40.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_60.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      3,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1297.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      3,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_813.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1
+    ],
+    "class_ids": [
+      4,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1215.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_69.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1043.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_759.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1147.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_44.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_671.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_58.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_479.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1314.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_768.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_931.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_240.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    "class_ids": [
+      2,
+      4,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_632.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1
+    ],
+    "class_ids": [
+      4,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1244.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_332.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1317.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_179.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_649.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_464.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      0
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_979.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1557.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_166.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1301.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1
+    ],
+    "class_ids": [
+      4,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_587.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_692.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_765.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1337.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_603.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_960.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_828.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_196.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_467.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "class_ids": [
+      0,
+      4
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_221.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      0,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_6.jpeg",
+    "label": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "class_ids": [
+      0,
+      6
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1492.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_165.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_702.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1416.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_116.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1528.jpeg",
+    "label": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1358.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0
+    ],
+    "class_ids": [
+      4,
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1075.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_885.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_110.jpeg",
+    "label": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1385.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_697.jpeg",
+    "label": [
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      1,
+      2
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1463.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    "class_ids": [
+      5
+    ]
+  },
+  {
+    "image_path": "test/images/image_s3r2_kiit_1619.jpeg",
+    "label": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "class_ids": [
+      3
+    ]
+  }
+]

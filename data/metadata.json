@@ -1,0 +1,59 @@
+{
+  "num_classes": 7,
+  "class_names": [
+    "Artilary",
+    "Missile",
+    "Radar",
+    "M. Rocket Launcher",
+    "Soldier",
+    "Tank",
+    "Vehicle"
+  ],
+  "splits": {
+    "train": {
+      "split": "train",
+      "num_images": 1360,
+      "class_distribution": {
+        "Artilary": 147,
+        "Missile": 233,
+        "Radar": 197,
+        "M. Rocket Launcher": 186,
+        "Soldier": 285,
+        "Tank": 305,
+        "Vehicle": 378
+      },
+      "avg_objects_per_image": 1.2727941176470587,
+      "max_objects_per_image": 4
+    },
+    "test": {
+      "split": "test",
+      "num_images": 170,
+      "class_distribution": {
+        "Artilary": 23,
+        "Missile": 23,
+        "Radar": 31,
+        "M. Rocket Launcher": 25,
+        "Soldier": 36,
+        "Tank": 34,
+        "Vehicle": 39
+      },
+      "avg_objects_per_image": 1.2411764705882353,
+      "max_objects_per_image": 3
+    },
+    "valid": {
+      "split": "valid",
+      "num_images": 170,
+      "class_distribution": {
+        "Artilary": 19,
+        "Missile": 25,
+        "Radar": 27,
+        "M. Rocket Launcher": 28,
+        "Soldier": 35,
+        "Tank": 37,
+        "Vehicle": 47
+      },
+      "avg_objects_per_image": 1.2823529411764707,
+      "max_objects_per_image": 5
+    }
+  }
+}
