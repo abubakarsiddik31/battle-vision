@@ -1,13 +1,15 @@
 # Experiments Summary
 
-Generated: 2026-03-09 04:43:17
+Generated: 2026-03-09 05:08:45
 
-Total Experiments: 6
+Total Experiments: 8
 
 ## Quick Reference
 
 | Date | Experiment | Architecture | Pretrained | Micro F1 | Acc | Tags |
 |------|------------|--------------|------------|----------|-----|------|
+| 2026-03-09 | efficientnet_b0_imagenet_20260309_050538 | efficientnet_b0 | imagenet | 0.7614 | 0.5824 | regularization,dropo |
+| 2026-03-09 | resnet34_imagenet_20260309_050206 | resnet34 | imagenet | 0.7583 | 0.5824 | arch-explore,resnet3 |
 | 2026-03-09 | resnet34_imagenet_20260309_043933 | resnet34 | imagenet | 0.7209 | 0.5588 | arch-explore,resnet3 |
 | 2026-03-09 | resnet18_imagenet_20260309_043357 | resnet18 | imagenet | 0.7189 | 0.5529 | arch-explore,resnet1 |
 | 2026-03-09 | efficientnet_b0_imagenet_20260309_042229 | efficientnet_b0 | imagenet | 0.7653 | 0.5941 | baseline,efficientne |
@@ -16,6 +18,84 @@ Total Experiments: 6
 | 2026-03-09 | resnet50_imagenet_20260309_030219 | resnet50 | imagenet | 0.3470 | 0.1529 | baseline,resnet50,in |
 
 ## Detailed Results
+
+### efficientnet_b0_imagenet_20260309_050538
+
+**ID:** `8aa0313a`
+
+**Date:** 2026-03-09T05:05:39.667674
+
+**Duration:** 183.0s
+
+**Tags:** `regularization,dropout,efficientnet_b0`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `efficientnet_b0`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.5823529411764706
+- Micro F1: 0.7614457831325301
+- Micro Precision: 0.8020304568527918
+- Micro Recall: 0.7247706422018348
+- Macro F1: 0.7756159841778996
+
+**Per-Class F1:**
+- Artilary: 0.8571428571428572
+- Missile: 0.7111111111111111
+- Radar: 0.9056603773584906
+- M. Rocket Launcher: 0.8235294117647057
+- Soldier: 0.6857142857142857
+- Tank: 0.7428571428571429
+- Vehicle: 0.7032967032967034
+
+---
+
+### resnet34_imagenet_20260309_050206
+
+**ID:** `7b9e888b`
+
+**Date:** 2026-03-09T05:02:07.477614
+
+**Duration:** 201.9s
+
+**Tags:** `arch-explore,resnet34`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `resnet34`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.5823529411764706
+- Micro F1: 0.7582938388625592
+- Micro Precision: 0.7843137254901961
+- Micro Recall: 0.7339449541284404
+- Macro F1: 0.7782114705107465
+
+**Per-Class F1:**
+- Artilary: 0.8205128205128205
+- Missile: 0.8085106382978724
+- Radar: 0.9259259259259259
+- M. Rocket Launcher: 0.8235294117647057
+- Soldier: 0.7164179104477612
+- Tank: 0.7142857142857142
+- Vehicle: 0.6382978723404256
+
+---
 
 ### resnet34_imagenet_20260309_043933
 

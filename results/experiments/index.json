@@ -1,6 +1,352 @@
 {
   "experiments": [
     {
+      "experiment_id": "8aa0313a",
+      "experiment_name": "efficientnet_b0_imagenet_20260309_050538",
+      "start_time": "2026-03-09T05:05:39.667674",
+      "end_time": "2026-03-09T05:08:42.656175",
+      "duration_seconds": 182.988501,
+      "tags": [
+        "regularization,dropout,efficientnet_b0"
+      ],
+      "config": {
+        "model": "efficientnet_b0",
+        "learning_rate": 0.001,
+        "num_classes": 7,
+        "classes": [
+          "Artilary",
+          "Missile",
+          "Radar",
+          "M. Rocket Launcher",
+          "Soldier",
+          "Tank",
+          "Vehicle"
+        ],
+        "device": "cuda",
+        "architecture": "efficientnet_b0",
+        "pretrained": "imagenet",
+        "custom_weights_path": null,
+        "epochs_head": 10,
+        "epochs_finetune": 20,
+        "epochs_total": 30,
+        "lr_head": 0.001,
+        "lr_finetune": 0.0001,
+        "lr_scratch": 0.001,
+        "optimizer": "adam",
+        "weight_decay": 0.0,
+        "momentum": null,
+        "batch_size": 32,
+        "image_size": 224,
+        "num_workers": 4,
+        "dropout": 0.5,
+        "freeze_batch_norm": false,
+        "label_smoothing": 0.0,
+        "pos_weight": 1.0,
+        "mixed_precision": false,
+        "class_names": [
+          "Artilary",
+          "Missile",
+          "Radar",
+          "M. Rocket Launcher",
+          "Soldier",
+          "Tank",
+          "Vehicle"
+        ],
+        "command_line_args": {
+          "architecture": "efficientnet_b0",
+          "pretrained": "imagenet",
+          "custom_weights": null,
+          "epochs_head": 10,
+          "epochs_finetune": 20,
+          "epochs": 30,
+          "lr_head": 0.001,
+          "lr_finetune": 0.0001,
+          "lr_scratch": 0.001,
+          "optimizer": "adam",
+          "weight_decay": 0.0,
+          "momentum": 0.9,
+          "batch_size": 32,
+          "image_size": 224,
+          "num_workers": 4,
+          "dropout": 0.5,
+          "freeze_bn": false,
+          "label_smoothing": 0.0,
+          "pos_weight": 1.0,
+          "device": null,
+          "mixed_precision": false,
+          "notes": "EfficientNet-B0 with higher dropout to reduce overfitting",
+          "tags": [
+            "regularization,dropout,efficientnet_b0"
+          ],
+          "exp_name": "efficientnet_b0_imagenet_20260309_050538",
+          "no_trackio": false,
+          "trackio_project": "kiit-mita-classification"
+        },
+        "git_commit": "864d24e9cf538fabfa2f20d7c0fa0e7f759344ae",
+        "num_epochs_head": 10,
+        "num_epochs_finetune": 20,
+        "train_samples": 1360,
+        "val_samples": 170
+      },
+      "final_results": {
+        "Artilary": {
+          "precision": 0.9375,
+          "recall": 0.7894736842105263,
+          "f1": 0.8571428571428572,
+          "accuracy": 0.9705882352941176,
+          "tp": 15,
+          "fp": 1,
+          "fn": 4,
+          "tn": 150
+        },
+        "Missile": {
+          "precision": 0.8,
+          "recall": 0.64,
+          "f1": 0.7111111111111111,
+          "accuracy": 0.9235294117647059,
+          "tp": 16,
+          "fp": 4,
+          "fn": 9,
+          "tn": 141
+        },
+        "Radar": {
+          "precision": 0.9230769230769231,
+          "recall": 0.8888888888888888,
+          "f1": 0.9056603773584906,
+          "accuracy": 0.9705882352941176,
+          "tp": 24,
+          "fp": 2,
+          "fn": 3,
+          "tn": 141
+        },
+        "M. Rocket Launcher": {
+          "precision": 0.9130434782608695,
+          "recall": 0.75,
+          "f1": 0.8235294117647057,
+          "accuracy": 0.9470588235294117,
+          "tp": 21,
+          "fp": 2,
+          "fn": 7,
+          "tn": 140
+        },
+        "Soldier": {
+          "precision": 0.6857142857142857,
+          "recall": 0.6857142857142857,
+          "f1": 0.6857142857142857,
+          "accuracy": 0.8705882352941177,
+          "tp": 24,
+          "fp": 11,
+          "fn": 11,
+          "tn": 124
+        },
+        "Tank": {
+          "precision": 0.7878787878787878,
+          "recall": 0.7027027027027027,
+          "f1": 0.7428571428571429,
+          "accuracy": 0.8941176470588236,
+          "tp": 26,
+          "fp": 7,
+          "fn": 11,
+          "tn": 126
+        },
+        "Vehicle": {
+          "precision": 0.7272727272727273,
+          "recall": 0.6808510638297872,
+          "f1": 0.7032967032967034,
+          "accuracy": 0.8411764705882353,
+          "tp": 32,
+          "fp": 12,
+          "fn": 15,
+          "tn": 111
+        },
+        "micro": {
+          "precision": 0.8020304568527918,
+          "recall": 0.7247706422018348,
+          "f1": 0.7614457831325301,
+          "accuracy": 0.9168067226890756
+        },
+        "macro": {
+          "precision": 0.8249266003147991,
+          "recall": 0.733947232192313,
+          "f1": 0.7756159841778996
+        },
+        "exact_match_accuracy": 0.5823529411764706
+      }
+    },
+    {
+      "experiment_id": "7b9e888b",
+      "experiment_name": "resnet34_imagenet_20260309_050206",
+      "start_time": "2026-03-09T05:02:07.477614",
+      "end_time": "2026-03-09T05:05:29.395252",
+      "duration_seconds": 201.917638,
+      "tags": [
+        "arch-explore,resnet34"
+      ],
+      "config": {
+        "model": "resnet34",
+        "learning_rate": 0.001,
+        "num_classes": 7,
+        "classes": [
+          "Artilary",
+          "Missile",
+          "Radar",
+          "M. Rocket Launcher",
+          "Soldier",
+          "Tank",
+          "Vehicle"
+        ],
+        "device": "cuda",
+        "architecture": "resnet34",
+        "pretrained": "imagenet",
+        "custom_weights_path": null,
+        "epochs_head": 10,
+        "epochs_finetune": 20,
+        "epochs_total": 30,
+        "lr_head": 0.001,
+        "lr_finetune": 0.0001,
+        "lr_scratch": 0.001,
+        "optimizer": "adam",
+        "weight_decay": 0.0,
+        "momentum": null,
+        "batch_size": 32,
+        "image_size": 224,
+        "num_workers": 4,
+        "dropout": 0.3,
+        "freeze_batch_norm": false,
+        "label_smoothing": 0.0,
+        "pos_weight": 1.0,
+        "mixed_precision": false,
+        "class_names": [
+          "Artilary",
+          "Missile",
+          "Radar",
+          "M. Rocket Launcher",
+          "Soldier",
+          "Tank",
+          "Vehicle"
+        ],
+        "command_line_args": {
+          "architecture": "resnet34",
+          "pretrained": "imagenet",
+          "custom_weights": null,
+          "epochs_head": 10,
+          "epochs_finetune": 20,
+          "epochs": 30,
+          "lr_head": 0.001,
+          "lr_finetune": 0.0001,
+          "lr_scratch": 0.001,
+          "optimizer": "adam",
+          "weight_decay": 0.0,
+          "momentum": 0.9,
+          "batch_size": 32,
+          "image_size": 224,
+          "num_workers": 4,
+          "dropout": 0.3,
+          "freeze_bn": false,
+          "label_smoothing": 0.0,
+          "pos_weight": 1.0,
+          "device": null,
+          "mixed_precision": false,
+          "notes": "ResNet34 - middle ground architecture",
+          "tags": [
+            "arch-explore,resnet34"
+          ],
+          "exp_name": "resnet34_imagenet_20260309_050206",
+          "no_trackio": false,
+          "trackio_project": "kiit-mita-classification"
+        },
+        "git_commit": "864d24e9cf538fabfa2f20d7c0fa0e7f759344ae",
+        "num_epochs_head": 10,
+        "num_epochs_finetune": 20,
+        "train_samples": 1360,
+        "val_samples": 170
+      },
+      "final_results": {
+        "Artilary": {
+          "precision": 0.8,
+          "recall": 0.8421052631578947,
+          "f1": 0.8205128205128205,
+          "accuracy": 0.9588235294117647,
+          "tp": 16,
+          "fp": 4,
+          "fn": 3,
+          "tn": 147
+        },
+        "Missile": {
+          "precision": 0.8636363636363636,
+          "recall": 0.76,
+          "f1": 0.8085106382978724,
+          "accuracy": 0.9470588235294117,
+          "tp": 19,
+          "fp": 3,
+          "fn": 6,
+          "tn": 142
+        },
+        "Radar": {
+          "precision": 0.9259259259259259,
+          "recall": 0.9259259259259259,
+          "f1": 0.9259259259259259,
+          "accuracy": 0.9764705882352941,
+          "tp": 25,
+          "fp": 2,
+          "fn": 2,
+          "tn": 141
+        },
+        "M. Rocket Launcher": {
+          "precision": 0.9130434782608695,
+          "recall": 0.75,
+          "f1": 0.8235294117647057,
+          "accuracy": 0.9470588235294117,
+          "tp": 21,
+          "fp": 2,
+          "fn": 7,
+          "tn": 140
+        },
+        "Soldier": {
+          "precision": 0.75,
+          "recall": 0.6857142857142857,
+          "f1": 0.7164179104477612,
+          "accuracy": 0.888235294117647,
+          "tp": 24,
+          "fp": 8,
+          "fn": 11,
+          "tn": 127
+        },
+        "Tank": {
+          "precision": 0.7575757575757576,
+          "recall": 0.6756756756756757,
+          "f1": 0.7142857142857142,
+          "accuracy": 0.8823529411764706,
+          "tp": 25,
+          "fp": 8,
+          "fn": 12,
+          "tn": 125
+        },
+        "Vehicle": {
+          "precision": 0.6382978723404256,
+          "recall": 0.6382978723404256,
+          "f1": 0.6382978723404256,
+          "accuracy": 0.8,
+          "tp": 30,
+          "fp": 17,
+          "fn": 17,
+          "tn": 106
+        },
+        "micro": {
+          "precision": 0.7843137254901961,
+          "recall": 0.7339449541284404,
+          "f1": 0.7582938388625592,
+          "accuracy": 0.9142857142857143
+        },
+        "macro": {
+          "precision": 0.8069256282484775,
+          "recall": 0.7539598604020296,
+          "f1": 0.7782114705107465
+        },
+        "exact_match_accuracy": 0.5823529411764706
+      }
+    },
+    {
       "experiment_id": "ed7424bf",
       "experiment_name": "resnet34_imagenet_20260309_043933",
       "start_time": "2026-03-09T04:39:58.238862",
@@ -1047,5 +1393,5 @@
       }
     }
   ],
-  "last_updated": "2026-03-09T04:43:14.917348"
+  "last_updated": "2026-03-09T05:08:42.662681"
 }
