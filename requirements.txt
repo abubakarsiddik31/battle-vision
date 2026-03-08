@@ -7,7 +7,7 @@ Pillow>=9.0.0
 numpy>=1.21.0
 
 # Experiment Tracking
-wandb>=0.15.0
+trackio>=0.1.0
 
 # Progress Bars
 tqdm>=4.65.0

@@ -1,5 +1,5 @@
 """
-Training and evaluation module with wandb integration for experiment tracking.
+Training and evaluation module with trackio integration for experiment tracking.
 """
 
 import json
@@ -14,10 +14,10 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 try:
-    import wandb
-    WANDB_AVAILABLE = True
+    import trackio
+    TRACKIO_AVAILABLE = True
 except ImportError:
-    WANDB_AVAILABLE = False
+    TRACKIO_AVAILABLE = False
 
 from .dataloaders import create_dataloaders
 from .dataset import KiitMitaDataset, load_metadata
@@ -37,30 +37,28 @@ CLASS_NAMES = METADATA["class_names"]
 NUM_CLASSES = METADATA["num_classes"]
 
 
-class WandBLogger:
-    """Wrapper for wandb logging with graceful fallback."""
+class TrackioLogger:
+    """Wrapper for trackio logging with graceful fallback."""
 
-    def __init__(self, project: str, entity: Optional[str] = None, config: Optional[Dict] = None):
-        self.enabled = WANDB_AVAILABLE
+    def __init__(self, project: str, config: Optional[Dict] = None):
+        self.enabled = TRACKIO_AVAILABLE
         if self.enabled:
-            wandb.init(project=project, entity=entity, config=config)
+            trackio.init(project=project, config=config)
+            print(f"Trackio logging enabled for project: {project}")
+            print(f"View dashboard with: trackio show --project {project}")
         else:
-            print("wandb not available. Using console logging only.")
+            print("trackio not available. Using console logging only.")
 
     def log(self, metrics: Dict, step: Optional[int] = None):
         if self.enabled:
-            wandb.log(metrics, step=step)
+            trackio.log(metrics)
         else:
             metrics_str = " | ".join([f"{k}: {v:.4f}" if isinstance(v, float) else f"{k}: {v}" for k, v in metrics.items()])
             print(f"  [Step {step}] {metrics_str}" if step else f"  {metrics_str}")
 
-    def log_model(self, path: str, name: str):
-        if self.enabled:
-            wandb.save(path, base_path=str(PROJECT_ROOT))
-
     def finish(self):
         if self.enabled:
-            wandb.finish()
+            trackio.finish()
 
 
 class MultiLabelMetrics:
@@ -143,12 +141,12 @@ class MultiLabelMetrics:
 
 class Trainer:
     """
-    Trainer class with wandb integration for multi-label classification.
+    Trainer class with trackio integration for multi-label classification.
 
     Supports:
     - Transfer learning with freeze/fine-tune phases
     - Automatic checkpointing
-    - wandb experiment tracking
+    - trackio experiment tracking (local-first, free)
     - Comprehensive metrics logging
     """
 
@@ -158,8 +156,8 @@ class Trainer:
         model_name: str,
         device: Optional[str] = None,
         learning_rate: float = 1e-3,
-        use_wandb: bool = True,
-        wandb_project: str = "kiit-mita-classification",
+        use_trackio: bool = True,
+        trackio_project: str = "kiit-mita-classification",
     ):
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
         self.model = model.to(self.device)
@@ -170,12 +168,12 @@ class Trainer:
         self.train_metrics = MultiLabelMetrics(NUM_CLASSES, CLASS_NAMES)
         self.val_metrics = MultiLabelMetrics(NUM_CLASSES, CLASS_NAMES)
 
-        # WandB
-        self.use_wandb = use_wandb and WANDB_AVAILABLE
-        self.wandb_logger = None
-        if self.use_wandb:
-            self.wandb_logger = WandBLogger(
-                project=wandb_project,
+        # Trackio
+        self.use_trackio = use_trackio and TRACKIO_AVAILABLE
+        self.trackio_logger = None
+        if self.use_trackio:
+            self.trackio_logger = TrackioLogger(
+                project=trackio_project,
                 config={
                     "model": model_name,
                     "learning_rate": learning_rate,
@@ -233,13 +231,13 @@ class Trainer:
         return avg_loss, metrics.compute()
 
     def log_metrics(self, epoch: int, phase: str, loss: float, metrics: Dict, step: int):
-        """Log metrics to console and wandb."""
+        """Log metrics to console and trackio."""
         prefix = f"[{phase.upper()}]" if phase else ""
         print(f"\n{prefix} Epoch {epoch}: Loss={loss:.4f}")
         print(f"  Exact Match Acc: {metrics['exact_match_accuracy']:.4f}")
         print(f"  Micro F1: {metrics['micro']['f1']:.4f} | Macro F1: {metrics['macro']['f1']:.4f}")
 
-        if self.wandb_logger:
+        if self.trackio_logger:
             log_dict = {
                 f"{phase}/loss": loss,
                 f"{phase}/exact_match_accuracy": metrics["exact_match_accuracy"],
@@ -247,12 +245,13 @@ class Trainer:
                 f"{phase}/macro_f1": metrics["macro"]["f1"],
                 f"{phase}/micro_precision": metrics["micro"]["precision"],
                 f"{phase}/micro_recall": metrics["micro"]["recall"],
+                "epoch": epoch,
             }
             # Log per-class metrics
             for class_name in CLASS_NAMES:
                 if class_name in metrics:
                     log_dict[f"{phase}/{class_name}_f1"] = metrics[class_name]["f1"]
-            self.wandb_logger.log(log_dict, step=step)
+            self.trackio_logger.log(log_dict, step=step)
 
     def save_checkpoint(self, epoch: int, loss: float, metrics: Dict, phase: str):
         """Save model checkpoint."""
@@ -265,8 +264,7 @@ class Trainer:
         }
         path = CHECKPOINT_DIR / f"{self.model_name}_{phase}_best.pth"
         torch.save(checkpoint, path)
-        if self.wandb_logger:
-            self.wandb_logger.log_model(str(path), f"{self.model_name}_{phase}_best")
+        print(f"Checkpoint saved to {path}")
 
     def train(
         self,
@@ -329,8 +327,8 @@ class Trainer:
 
             global_step += 1
 
-        if self.wandb_logger:
-            self.wandb_logger.finish()
+        if self.trackio_logger:
+            self.trackio_logger.finish()
 
         return self.model
 
@@ -364,8 +362,8 @@ class Trainer:
 
             global_step += 1
 
-        if self.wandb_logger:
-            self.wandb_logger.finish()
+        if self.trackio_logger:
+            self.trackio_logger.finish()
 
         return self.model
 
@@ -373,9 +371,9 @@ class Trainer:
 def create_trainer(
     model_type: str = "resnet18",
     learning_rate: float = 1e-3,
-    use_wandb: bool = True,
+    use_trackio: bool = True,
     device: Optional[str] = None,
 ) -> Trainer:
     """Factory function to create a trainer with a model."""
     model = create_model(model_type, num_classes=NUM_CLASSES, pretrained=True)
-    return Trainer(model, model_type, device, learning_rate, use_wandb)
+    return Trainer(model, model_type, device, learning_rate, use_trackio)

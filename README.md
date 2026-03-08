@@ -40,7 +40,7 @@ KIIT-MiTA-Classification/
 │   ├── dataset.py            # Dataset class
 │   ├── dataloaders.py        # Data transforms & loaders
 │   ├── models.py             # Model architectures
-│   └── trainer.py            # Training with wandb integration
+│   └── trainer.py            # Training with trackio integration
 ├── scripts/                   # Utility scripts
 │   └── dataset_prep.py       # Parse YOLO labels
 ├── KIIT-MiTA/                # Original dataset
@@ -56,9 +56,9 @@ KIIT-MiTA-Classification/
 
 ### Requirements
 
-- Python 3.8+
+- Python 3.10+
 - PyTorch 2.0+
-- wandb (optional, for experiment tracking)
+- trackio (optional, for experiment tracking)
 
 ### Setup
 
@@ -89,6 +89,9 @@ python train.py --model efficientnet
 
 # Train with Vision Transformer
 python train.py --model vit
+
+# View experiments dashboard
+trackio show --project kiit-mita-classification
 ```
 
 ### Training Options
@@ -97,15 +100,15 @@ python train.py --model vit
 python train.py --help
 
 Options:
-  --model, -m          Model architecture [resnet18|efficientnet|vit|custom]
-  --epochs-head        Epochs for head training (default: 10)
-  --epochs-finetune    Epochs for fine-tuning (default: 20)
-  --epochs, -e         Total epochs for custom CNN (default: 30)
-  --lr, --learning-rate Learning rate (default: 1e-3)
-  --batch-size, -b     Batch size (default: 32)
-  --device             Device [cuda|cpu|mps]
-  --no-wandb           Disable wandb logging
-  --wandb-project      WandB project name
+  --model, -m            Model architecture [resnet18|efficientnet|vit|custom]
+  --epochs-head          Epochs for head training (default: 10)
+  --epochs-finetune      Epochs for fine-tuning (default: 20)
+  --epochs, -e           Total epochs for custom CNN (default: 30)
+  --lr, --learning-rate  Learning rate (default: 1e-3)
+  --batch-size, -b       Batch size (default: 32)
+  --device               Device [cuda|cpu|mps]
+  --no-trackio           Disable trackio logging
+  --trackio-project      Trackio project name
 ```
 
 ### Training Strategy
@@ -126,16 +129,31 @@ The following metrics are computed for multi-label classification:
 
 ## Experiment Tracking
 
-The project integrates with [Weights & Biases (wandb)](https://wandb.ai) for experiment tracking:
+The project integrates with [Trackio](https://github.com/huggingface/trackio) - a lightweight, local-first experiment tracking library from Hugging Face:
 
 - Automatic logging of loss, accuracy, F1 scores
 - Per-class metric tracking
 - Model checkpointing
 - Comparison across runs
+- Local dashboard with `trackio show`
+- Optional cloud sync to Hugging Face Spaces
 
-To disable wandb:
+### Viewing Experiments
+
 ```bash
-python train.py --no-wandb
+# Launch the dashboard
+trackio show
+
+# View specific project
+trackio show --project kiit-mita-classification
+
+# Query experiments via CLI
+trackio get runs --project kiit-mita-classification --json
+```
+
+To disable trackio:
+```bash
+python train.py --model resnet18 --no-trackio
 ```
 
 ## Model Architectures
@@ -181,7 +199,7 @@ src/kiit_mita/
 ├── dataset.py        # KiitMitaDataset class
 ├── dataloaders.py    # TrainTransforms, EvalTransforms, create_dataloaders()
 ├── models.py         # Model factories and architectures
-└── trainer.py        # Trainer class with wandb integration
+└── trainer.py        # Trainer class with trackio integration
 ```
 
 ### Adding a New Model
@@ -214,4 +232,4 @@ This project is provided for educational and research purposes.
 
 - KIIT University for providing the dataset
 - PyTorch team for the deep learning framework
-- Weights & Biases for experiment tracking tools
+- Hugging Face for the Trackio experiment tracking library

@@ -26,7 +26,7 @@ from .models import (
 from .trainer import (
     Trainer,
     MultiLabelMetrics,
-    WandBLogger,
+    TrackioLogger,
     create_trainer,
 )
 
@@ -51,6 +51,6 @@ __all__ = [
     # Training
     "Trainer",
     "MultiLabelMetrics",
-    "WandBLogger",
+    "TrackioLogger",
     "create_trainer",
 ]

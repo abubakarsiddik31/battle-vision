@@ -9,8 +9,11 @@ Usage:
     # Train custom CNN baseline
     python train.py --model custom --epochs 30
 
-    # Train with wandb disabled
-    python train.py --model resnet18 --no-wandb
+    # Train with trackio disabled
+    python train.py --model resnet18 --no-trackio
+
+    # View experiments dashboard
+    trackio show --project kiit-mita-classification
 """
 
 import argparse
@@ -83,17 +86,17 @@ def main():
         help="Device to use"
     )
 
-    # WandB options
+    # Trackio options
     parser.add_argument(
-        "--no-wandb",
+        "--no-trackio",
         action="store_true",
-        help="Disable wandb logging"
+        help="Disable trackio logging"
     )
     parser.add_argument(
-        "--wandb-project",
+        "--trackio-project",
         type=str,
         default="kiit-mita-classification",
-        help="WandB project name"
+        help="Trackio project name"
     )
 
     args = parser.parse_args()
@@ -105,7 +108,7 @@ def main():
     print(f"Classes ({NUM_CLASSES}): {', '.join(CLASS_NAMES)}")
     print(f"Batch size: {args.batch_size}")
     print(f"Learning rate: {args.lr}")
-    print(f"WandB: {not args.no_wandb}")
+    print(f"Trackio: {not args.no_trackio}")
 
     # Create dataloaders
     print("\nCreating dataloaders...")
@@ -127,8 +130,8 @@ def main():
             model_name="custom_cnn",
             device=device,
             learning_rate=args.lr,
-            use_wandb=not args.no_wandb,
-            wandb_project=args.wandb_project,
+            use_trackio=not args.no_trackio,
+            trackio_project=args.trackio_project,
         )
         trainer.train_from_scratch(
             train_loader,
@@ -141,7 +144,7 @@ def main():
         trainer = create_trainer(
             model_type=args.model,
             learning_rate=args.lr,
-            use_wandb=not args.no_wandb,
+            use_trackio=not args.no_trackio,
             device=args.device,
         )
         trainer.train(
