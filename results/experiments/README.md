@@ -42,6 +42,8 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 <!-- Auto-generated summary will be added below -->
 | Date | Experiment | Architecture | F1 | Accuracy | Notes |
 |------|------------|--------------|-----|----------|-------|
+| 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7720 | 0.6000 | efficientnet_v2_s,imagenet |
+| 2026-03-09 | swin_t_imagenet_20260309_19041 | swin_t | 0.8046 | 0.6529 | swin_t,imagenet |
 | 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7896 | 0.6118 | efficientnet_v2_s,imagenet |
 | 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7925 | 0.6294 | efficientnet_v2_s,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_17384 | swin_t | 0.7954 | 0.6235 | swin_t,imagenet |
@@ -60,5 +62,3 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 | 2026-03-09 | resnet34_imagenet_20260309_050 | resnet34 | 0.7583 | 0.5824 | arch-explore,resnet34 |
 | 2026-03-09 | resnet34_imagenet_20260309_043 | resnet34 | 0.7209 | 0.5588 | arch-explore,resnet34 |
 | 2026-03-09 | resnet18_imagenet_20260309_043 | resnet18 | 0.7189 | 0.5529 | arch-explore,resnet18 |
-| 2026-03-09 | efficientnet_b0_imagenet_20260 | efficientnet_b0 | 0.7653 | 0.5941 | baseline,efficientnet,arch-com |
-| 2026-03-09 | resnet50_imagenet_20260309_040 | resnet50 | 0.7443 | 0.5471 | baseline,resnet50,longer-train |
