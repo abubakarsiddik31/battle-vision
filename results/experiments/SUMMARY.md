@@ -1,13 +1,14 @@
 # Experiments Summary
 
-Generated: 2026-03-09 13:02:38
+Generated: 2026-03-09 13:14:13
 
-Total Experiments: 11
+Total Experiments: 12
 
 ## Quick Reference
 
 | Date | Experiment | Architecture | Pretrained | Micro F1 | Acc | Tags |
 |------|------------|--------------|------------|----------|-----|------|
+| 2026-03-09 | convnext_tiny_imagenet_20260309_130623 | convnext_tiny | imagenet | 0.7854 | 0.6235 | convnext_tiny,imagen |
 | 2026-03-09 | mobilenet_v2_imagenet_20260309_130004 | mobilenet_v2 | imagenet | 0.7286 | 0.5588 | mobilenet_v2,imagene |
 | 2026-03-09 | densenet121_imagenet_20260309_124854 | densenet121 | imagenet | 0.7830 | 0.6412 | densenet121,imagenet |
 | 2026-03-09 | vgg16_imagenet_20260309_122812 | vgg16 | imagenet | 0.7021 | 0.5118 | vgg16,imagenet |
@@ -21,6 +22,45 @@ Total Experiments: 11
 | 2026-03-09 | resnet50_imagenet_20260309_030219 | resnet50 | imagenet | 0.3470 | 0.1529 | baseline,resnet50,in |
 
 ## Detailed Results
+
+### convnext_tiny_imagenet_20260309_130623
+
+**ID:** `3385c192`
+
+**Date:** 2026-03-09T13:06:56.814110
+
+**Duration:** 434.0s
+
+**Tags:** `convnext_tiny`, `imagenet`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `convnext_tiny`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.6235294117647059
+- Micro F1: 0.7853881278538812
+- Micro Precision: 0.7818181818181819
+- Micro Recall: 0.7889908256880734
+- Macro F1: 0.7954696976030922
+
+**Per-Class F1:**
+- Artilary: 0.8181818181818181
+- Missile: 0.7234042553191491
+- Radar: 0.9433962264150944
+- M. Rocket Launcher: 0.8076923076923077
+- Soldier: 0.7999999999999999
+- Tank: 0.8311688311688312
+- Vehicle: 0.6444444444444444
+
+---
 
 ### mobilenet_v2_imagenet_20260309_130004
 
