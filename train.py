@@ -170,6 +170,13 @@ def parse_args():
         default=4,
         help="Number of data loading workers"
     )
+    parser.add_argument(
+        "--augmentation",
+        type=str,
+        default="baseline",
+        choices=["none", "baseline", "strong", "light", "color", "geometric", "aggressive"],
+        help="Data augmentation strategy for training"
+    )
 
     # ===== Model Architecture Tweaks =====
     parser.add_argument(
@@ -379,10 +386,11 @@ def main():
 
     # Create dataloaders
     print("\nCreating dataloaders...")
-    train_loader, val_loader, test_loader = create_dataloaders(
+    train_loader, val_loader, test_loader, augmentation_info = create_dataloaders(
         batch_size=args.batch_size,
         num_workers=args.num_workers,
         image_size=args.image_size,
+        augmentation=args.augmentation,
     )
 
     # Create model
@@ -419,6 +427,7 @@ def main():
     # Log complete configuration
     trainer.experiment_logger.log_config(config)
     trainer.experiment_logger.log_config({
+        "augmentation": augmentation_info,
         "command_line_args": vars(args),
         "git_commit": get_git_commit(),
     })

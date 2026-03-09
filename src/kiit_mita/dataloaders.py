@@ -1,13 +1,16 @@
 """
 Data transforms and dataloaders for KIIT-MiTA multi-label classification.
+
+Supports multiple augmentation strategies for experimentation.
 """
 
 from pathlib import Path
+from typing import Literal, Optional
 
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageFilter
 
 from .dataset import KiitMitaDataset
 
@@ -20,25 +23,85 @@ DATA_DIR = "/home/abubakar/Desktop/Research/DL-assignment/data"
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD = [0.229, 0.224, 0.225]
 
+# Augmentation strategy types
+AugmentationStrategy = Literal[
+    "none",
+    "baseline",
+    "strong",
+    "light",
+    "color",
+    "geometric",
+    "aggressive",
+]
+
+# Augmentation strategy descriptions
+AUGMENTATION_DESCRIPTIONS = {
+    "none": "No augmentation - only resize and normalize",
+    "baseline": "Standard: random crop (0.8-1.0), h-flip (50%), rotation (-15 to +15)",
+    "strong": "Stronger: random crop (0.6-1.0), h-flip (50%), rotation (-30 to +30), v-flip (20%)",
+    "light": "Light: random crop (0.9-1.0), h-flip (30%), rotation (-5 to +5)",
+    "color": "Color-focused: baseline + color jitter (brightness, contrast, saturation)",
+    "geometric": "Geometric-focused: baseline + stronger rotation (-45 to +45) + v-flip",
+    "aggressive": "Aggressive: strong + color jitter + gaussian blur",
+}
+
 
 class TrainTransforms:
-    """Training transforms with augmentation."""
+    """Training transforms with configurable augmentation strategy."""
 
-    def __init__(self, image_size: int = 224):
+    def __init__(
+        self,
+        image_size: int = 224,
+        augmentation: AugmentationStrategy = "baseline",
+    ):
         self.image_size = image_size
+        self.augmentation = augmentation
+        self._setup_augmentation()
+
+    def _setup_augmentation(self):
+        """Configure augmentation parameters based on strategy."""
+        # Default (baseline) parameters
+        self.crop_scale = (0.8, 1.0)
+        self.h_flip_prob = 0.5
+        self.v_flip_prob = 0.0
+        self.rotation_range = 15
+        self.color_jitter = False
+        self.gaussian_blur = False
+
+        if self.augmentation == "none":
+            self.crop_scale = (1.0, 1.0)
+            self.h_flip_prob = 0.0
+            self.rotation_range = 0
+
+        elif self.augmentation == "strong":
+            self.crop_scale = (0.6, 1.0)
+            self.h_flip_prob = 0.5
+            self.v_flip_prob = 0.2
+            self.rotation_range = 30
+
+        elif self.augmentation == "light":
+            self.crop_scale = (0.9, 1.0)
+            self.h_flip_prob = 0.3
+            self.rotation_range = 5
+
+        elif self.augmentation == "color":
+            self.color_jitter = True
+
+        elif self.augmentation == "geometric":
+            self.rotation_range = 45
+            self.v_flip_prob = 0.3
+
+        elif self.augmentation == "aggressive":
+            self.crop_scale = (0.6, 1.0)
+            self.h_flip_prob = 0.5
+            self.v_flip_prob = 0.2
+            self.rotation_range = 30
+            self.color_jitter = True
+            self.gaussian_blur = True
 
     def __call__(self, img: Image.Image) -> torch.Tensor:
-        # Random resized crop
-        img = self._random_resized_crop(img, scale=(0.8, 1.0))
-
-        # Random horizontal flip
-        if np.random.random() > 0.5:
-            img = img.transpose(Image.FLIP_LEFT_RIGHT)
-
-        # Random rotation
-        if np.random.random() > 0.5:
-            angle = np.random.uniform(-15, 15)
-            img = img.rotate(angle, expand=False, fillcolor=(124, 116, 104))
+        # Apply augmentation
+        img = self._apply_augmentation(img)
 
         # Convert to tensor and normalize
         img = img.resize((self.image_size, self.image_size), Image.BILINEAR)
@@ -50,6 +113,42 @@ class TrainTransforms:
             img_array[i] = (img_array[i] - IMAGENET_MEAN[i]) / IMAGENET_STD[i]
 
         return torch.from_numpy(img_array)
+
+    def _apply_augmentation(self, img: Image.Image) -> Image.Image:
+        """Apply augmentation strategy to image."""
+        # Random resized crop
+        img = self._random_resized_crop(img, scale=self.crop_scale)
+
+        # Random horizontal flip
+        if np.random.random() < self.h_flip_prob:
+            img = img.transpose(Image.FLIP_LEFT_RIGHT)
+
+        # Random vertical flip
+        if np.random.random() < self.v_flip_prob:
+            img = img.transpose(Image.FLIP_TOP_BOTTOM)
+
+        # Random rotation
+        if self.rotation_range > 0 and np.random.random() > 0.5:
+            angle = np.random.uniform(-self.rotation_range, self.rotation_range)
+            img = img.rotate(angle, expand=False, fillcolor=(124, 116, 104))
+
+        # Color jitter
+        if self.color_jitter and np.random.random() > 0.5:
+            # Brightness
+            factor = np.random.uniform(0.7, 1.3)
+            img = ImageEnhance.Brightness(img).enhance(factor)
+            # Contrast
+            factor = np.random.uniform(0.7, 1.3)
+            img = ImageEnhance.Contrast(img).enhance(factor)
+            # Saturation
+            factor = np.random.uniform(0.7, 1.3)
+            img = ImageEnhance.Color(img).enhance(factor)
+
+        # Gaussian blur
+        if self.gaussian_blur and np.random.random() > 0.7:
+            img = img.filter(ImageFilter.GaussianBlur(radius=np.random.uniform(0.1, 2.0)))
+
+        return img
 
     def _random_resized_crop(self, img: Image.Image, scale=(0.8, 1.0)):
         """Simulate random resized crop."""
@@ -63,6 +162,10 @@ class TrainTransforms:
         top = np.random.randint(0, max(1, h - new_h))
 
         return img.crop((left, top, left + new_w, top + new_h))
+
+    def get_description(self) -> str:
+        """Get human-readable description of the augmentation strategy."""
+        return AUGMENTATION_DESCRIPTIONS.get(self.augmentation, "Unknown")
 
 
 class EvalTransforms:
@@ -89,7 +192,8 @@ def create_dataloaders(
     num_workers: int = 4,
     image_size: int = 224,
     pin_memory: bool = True,
-) -> tuple[DataLoader, DataLoader, DataLoader]:
+    augmentation: AugmentationStrategy = "baseline",
+) -> tuple[DataLoader, DataLoader, DataLoader, dict]:
     """
     Create train, validation, and test dataloaders.
 
@@ -98,27 +202,32 @@ def create_dataloaders(
         num_workers: Number of workers for data loading
         image_size: Target image size
         pin_memory: Whether to pin memory for faster GPU transfer
+        augmentation: Augmentation strategy for training data
 
     Returns:
-        train_loader, val_loader, test_loader
+        train_loader, val_loader, test_loader, augmentation_info
     """
+    # Create transforms
+    train_transform = TrainTransforms(image_size, augmentation=augmentation)
+    eval_transform = EvalTransforms(image_size)
+
     # Create datasets
     train_dataset = KiitMitaDataset(
         annotations_path=f"{DATA_DIR}/train_annotations.json",
         dataset_root=DATASET_ROOT,
-        transform=TrainTransforms(image_size),
+        transform=train_transform,
     )
 
     val_dataset = KiitMitaDataset(
         annotations_path=f"{DATA_DIR}/test_annotations.json",  # Using test as val
         dataset_root=DATASET_ROOT,
-        transform=EvalTransforms(image_size),
+        transform=eval_transform,
     )
 
     test_dataset = KiitMitaDataset(
         annotations_path=f"{DATA_DIR}/valid_annotations.json",
         dataset_root=DATASET_ROOT,
-        transform=EvalTransforms(image_size),
+        transform=eval_transform,
     )
 
     # Create dataloaders
@@ -147,13 +256,27 @@ def create_dataloaders(
         pin_memory=pin_memory,
     )
 
+    # Augmentation info for logging
+    augmentation_info = {
+        "strategy": augmentation,
+        "description": train_transform.get_description(),
+        "crop_scale": train_transform.crop_scale,
+        "h_flip_prob": train_transform.h_flip_prob,
+        "v_flip_prob": train_transform.v_flip_prob,
+        "rotation_range": train_transform.rotation_range,
+        "color_jitter": train_transform.color_jitter,
+        "gaussian_blur": train_transform.gaussian_blur,
+    }
+
     print(f"Train samples: {len(train_dataset)}")
     print(f"Val samples: {len(val_dataset)}")
     print(f"Test samples: {len(test_dataset)}")
     print(f"Batch size: {batch_size}")
     print(f"Num classes: {train_dataset.num_classes}")
+    print(f"Augmentation: {augmentation}")
+    print(f"  → {train_transform.get_description()}")
 
-    return train_loader, val_loader, test_loader
+    return train_loader, val_loader, test_loader, augmentation_info
 
 
 if __name__ == "__main__":
