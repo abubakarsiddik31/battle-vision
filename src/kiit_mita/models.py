@@ -273,13 +273,139 @@ def create_vit_variant(variant: str, num_classes: int = 7, pretrained: bool = Tr
     return MultiLabelClassifier(backbone, num_classes)
 
 
+def create_vgg_variant(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create VGG variants (vgg11, vgg13, vgg16, vgg19)."""
+    try:
+        if variant == "vgg11":
+            from torchvision.models import vgg11, VGG11_Weights
+            backbone = vgg11(weights=VGG11_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "vgg13":
+            from torchvision.models import vgg13, VGG13_Weights
+            backbone = vgg13(weights=VGG13_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "vgg16":
+            from torchvision.models import vgg16, VGG16_Weights
+            backbone = vgg16(weights=VGG16_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "vgg19":
+            from torchvision.models import vgg19, VGG19_Weights
+            backbone = vgg19(weights=VGG19_Weights.IMAGENET1K_V1 if pretrained else None)
+        else:
+            raise ValueError(f"Unknown VGG variant: {variant}")
+    except ImportError:
+        return CustomCNN(num_classes)
+    return MultiLabelClassifier(backbone, num_classes)
+
+
+def create_densenet_variant(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create DenseNet variants (densenet121, densenet161, densenet169, densenet201)."""
+    try:
+        if variant == "densenet121":
+            from torchvision.models import densenet121, DenseNet121_Weights
+            backbone = densenet121(weights=DenseNet121_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "densenet161":
+            from torchvision.models import densenet161, DenseNet161_Weights
+            backbone = densenet161(weights=DenseNet161_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "densenet169":
+            from torchvision.models import densenet169, DenseNet169_Weights
+            backbone = densenet169(weights=DenseNet169_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "densenet201":
+            from torchvision.models import densenet201, DenseNet201_Weights
+            backbone = densenet201(weights=DenseNet201_Weights.IMAGENET1K_V1 if pretrained else None)
+        else:
+            raise ValueError(f"Unknown DenseNet variant: {variant}")
+    except ImportError:
+        return CustomCNN(num_classes)
+    return MultiLabelClassifier(backbone, num_classes)
+
+
+def create_mobilenet_variant(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create MobileNet variants (mobilenet_v2, mobilenet_v3_small, mobilenet_v3_large)."""
+    try:
+        if variant == "mobilenet_v2":
+            from torchvision.models import mobilenet_v2, MobileNet_V2_Weights
+            backbone = mobilenet_v2(weights=MobileNet_V2_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "mobilenet_v3_small":
+            from torchvision.models import mobilenet_v3_small, MobileNet_V3_Small_Weights
+            backbone = mobilenet_v3_small(weights=MobileNet_V3_Small_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "mobilenet_v3_large":
+            from torchvision.models import mobilenet_v3_large, MobileNet_V3_Large_Weights
+            backbone = mobilenet_v3_large(weights=MobileNet_V3_Large_Weights.IMAGENET1K_V1 if pretrained else None)
+        else:
+            raise ValueError(f"Unknown MobileNet variant: {variant}")
+    except ImportError:
+        return CustomCNN(num_classes)
+    return MultiLabelClassifier(backbone, num_classes)
+
+
+def create_convnext_variant(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create ConvNeXt variants (convnext_tiny, convnext_small, convnext_base)."""
+    try:
+        if variant == "convnext_tiny":
+            from torchvision.models import convnext_tiny, ConvNeXt_Tiny_Weights
+            backbone = convnext_tiny(weights=ConvNeXt_Tiny_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "convnext_small":
+            from torchvision.models import convnext_small, ConvNeXt_Small_Weights
+            backbone = convnext_small(weights=ConvNeXt_Small_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "convnext_base":
+            from torchvision.models import convnext_base, ConvNeXt_Base_Weights
+            backbone = convnext_base(weights=ConvNeXt_Base_Weights.IMAGENET1K_V1 if pretrained else None)
+        else:
+            raise ValueError(f"Unknown ConvNeXt variant: {variant}")
+    except ImportError:
+        return CustomCNN(num_classes)
+    return MultiLabelClassifier(backbone, num_classes)
+
+
+def create_swin_variant(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create Swin Transformer variants (swin_t, swin_s, swin_b)."""
+    try:
+        if variant == "swin_t":
+            from torchvision.models import swin_t, Swin_T_Weights
+            backbone = swin_t(weights=Swin_T_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "swin_s":
+            from torchvision.models import swin_s, Swin_S_Weights
+            backbone = swin_s(weights=Swin_S_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "swin_b":
+            from torchvision.models import swin_b, Swin_B_Weights
+            backbone = swin_b(weights=Swin_B_Weights.IMAGENET1K_V1 if pretrained else None)
+        else:
+            raise ValueError(f"Unknown Swin variant: {variant}")
+    except ImportError:
+        return CustomCNN(num_classes)
+    return MultiLabelClassifier(backbone, num_classes)
+
+
+def create_efficientnet_variant_v2(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create EfficientNet-V2 variants (efficientnet_v2_s, efficientnet_v2_m, efficientnet_v2_l)."""
+    try:
+        if variant == "efficientnet_v2_s":
+            from torchvision.models import efficientnet_v2_s, EfficientNet_V2_S_Weights
+            backbone = efficientnet_v2_s(weights=EfficientNet_V2_S_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "efficientnet_v2_m":
+            from torchvision.models import efficientnet_v2_m, EfficientNet_V2_M_Weights
+            backbone = efficientnet_v2_m(weights=EfficientNet_V2_M_Weights.IMAGENET1K_V1 if pretrained else None)
+        elif variant == "efficientnet_v2_l":
+            from torchvision.models import efficientnet_v2_l, EfficientNet_V2_L_Weights
+            backbone = efficientnet_v2_l(weights=EfficientNet_V2_L_Weights.IMAGENET1K_V1 if pretrained else None)
+        else:
+            raise ValueError(f"Unknown EfficientNet-V2 variant: {variant}")
+    except ImportError:
+        return CustomCNN(num_classes)
+    return MultiLabelClassifier(backbone, num_classes)
+
+
 def create_model(model_type: str = "resnet18", num_classes: int = 7, pretrained: bool = True) -> nn.Module:
     """
     Factory function to create models.
 
     Args:
-        model_type: Type of model ('resnet18', 'resnet34', 'resnet50', 'efficientnet_b0',
-                      'efficientnet_b1', 'vit_b_16', 'vit_b_32', 'custom_cnn')
+        model_type: Type of model ('resnet18', 'resnet34', 'resnet50', 'efficientnet_b0', 'efficientnet_b1',
+                      'efficientnet_v2_s', 'efficientnet_v2_m', 'efficientnet_v2_l',
+                      'vit_b_16', 'vit_b_32', 'swin_t', 'swin_s', 'swin_b',
+                      'vgg11', 'vgg13', 'vgg16', 'vgg19',
+                      'densenet121', 'densenet161', 'densenet169', 'densenet201',
+                      'mobilenet_v2', 'mobilenet_v3_small', 'mobilenet_v3_large',
+                      'convnext_tiny', 'convnext_small', 'convnext_base',
+                      'custom_cnn')
         num_classes: Number of output classes
         pretrained: Whether to use pre-trained weights (for transfer learning models)
 
@@ -289,10 +415,22 @@ def create_model(model_type: str = "resnet18", num_classes: int = 7, pretrained:
     # Map model types to their creators
     if model_type.startswith("resnet"):
         return create_resnet_variant(model_type, num_classes, pretrained)
+    elif model_type.startswith("efficientnet_v2"):
+        return create_efficientnet_variant_v2(model_type, num_classes, pretrained)
     elif model_type.startswith("efficientnet"):
         return create_efficientnet_variant(model_type, num_classes, pretrained)
     elif model_type.startswith("vit"):
         return create_vit_variant(model_type, num_classes, pretrained)
+    elif model_type.startswith("swin"):
+        return create_swin_variant(model_type, num_classes, pretrained)
+    elif model_type.startswith("vgg"):
+        return create_vgg_variant(model_type, num_classes, pretrained)
+    elif model_type.startswith("densenet"):
+        return create_densenet_variant(model_type, num_classes, pretrained)
+    elif model_type.startswith("mobilenet"):
+        return create_mobilenet_variant(model_type, num_classes, pretrained)
+    elif model_type.startswith("convnext"):
+        return create_convnext_variant(model_type, num_classes, pretrained)
     elif model_type == "custom_cnn":
         return CustomCNN(num_classes)
     else:

@@ -10,6 +10,7 @@
 
 | Phase | Status | Experiments | Key Findings |
 |-------|--------|-------------|--------------|
+| **Phase 0** | 🟡 In Progress | 0/8 | Architecture survey - 1 per family |
 | **Phase 1** | ✅ Complete | 5/5 | EffNet-B0 wins (F1: 0.7653) |
 | **Phase 2** | 🟡 In Progress | 1/6 | Dropout 0.5 hurt performance |
 | **Phase 3** | ⬜ Pending | 0/5 | - |
@@ -17,7 +18,23 @@
 | **Phase 5** | ⬜ Pending | 0/4 | - |
 | **Phase 6** | ⬜ Pending | 0/4 | - |
 
-**Total**: 6/28 experiments completed (21%)
+**Total**: 6/36 experiments completed (17%)
+
+---
+
+## Phase 0: Architecture Survey (Reduced) 🟡 IN PROGRESS
+*[Goal: Train representative architectures from each family for report]*
+
+| ID | Architecture | Command | Status | Micro F1 | Accuracy |
+|----|--------------|---------|--------|----------|----------|
+| **Exp-V1** | VGG16 | `uv run python train.py -a vgg16 --pretrained imagenet --notes "VGG16 - classic deep CNN"` | ⬜ Todo | - | - |
+| **Exp-D1** | DenseNet121 | `uv run python train.py -a densenet121 --pretrained imagenet --notes "DenseNet121 - dense connectivity"` | ⬜ Todo | - | - |
+| **Exp-M1** | MobileNetV2 | `uv run python train.py -a mobilenet_v2 --pretrained imagenet --notes "MobileNetV2 - lightweight mobile"` | ⬜ Todo | - | - |
+| **Exp-C1** | ConvNeXt-Tiny | `uv run python train.py -a convnext_tiny --pretrained imagenet --notes "ConvNeXt-Tiny - modern CNN"` | ⬜ Todo | - | - |
+| **Exp-T1** | ViT-B/16 | `uv run python train.py -a vit_b_16 --pretrained imagenet --notes "ViT-B/16 - vision transformer"` | ⬜ Todo | - | - |
+| **Exp-S1** | Swin-Tiny | `uv run python train.py -a swin_t --pretrained imagenet --notes "Swin-Tiny - hierarchical transformer"` | ⬜ Todo | - | - |
+| **Exp-E1** | EffNetV2-S | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --notes "EfficientNetV2-S - improved V1"` | ⬜ Todo | - | - |
+| **Exp-U1** | Custom CNN | `uv run python train.py -a custom_cnn --pretrained none --epochs 30 --notes "Custom CNN from scratch"` | ⬜ Todo | - | - |
 
 ---
 
@@ -88,7 +105,7 @@
 
 ## Experiment Results Summary
 
-### All Experiments (8 runs, 6 unique configs)
+### All Completed Experiments
 
 | ID | Architecture | Config | Micro F1 | Accuracy | Duration | Status |
 |----|--------------|--------|----------|----------|----------|--------|
@@ -125,25 +142,28 @@
 
 ---
 
-## Recommendations
+## Quick Reference Commands
 
-### Next Experiments (Priority Order)
+### Run Experiments
+```bash
+# Phase 0 - All Architectures (copy from table above)
+# Example:
+uv run python train.py -a vgg16 --pretrained imagenet --notes "VGG16 baseline"
 
-1. **Exp 8**: Weight decay (more effective than dropout for transfer learning)
-2. **Exp 12**: AdamW optimizer (decoupled weight decay often helps)
-3. **Exp 14**: Lower finetune LR (prevent catastrophic forgetting)
-4. **Exp 25**: Class weighting (improve Vehicle class)
+# Phase 2 - Regularization
+uv run python train.py -a efficientnet_b0 --pretrained imagenet --dropout 0.2 --notes "Lower dropout test"
+uv run python train.py -a efficientnet_b0 --pretrained imagenet --weight-decay 1e-4 --notes "Weight decay 1e-4"
+uv run python train.py -a efficientnet_b0 --pretrained imagenet --label-smoothing 0.1 --notes "Label smoothing 0.1"
 
-### Skip These
+# Phase 3 - Optimizer
+uv run python train.py -a efficientnet_b0 --pretrained imagenet --optimizer adamw --notes "AdamW optimizer"
+uv run python train.py -a efficientnet_b0 --pretrained imagenet --optimizer sgd --momentum 0.9 --notes "SGD+Momentum"
 
-- ❌ Exp 5 (EfficientNet-B1) - B0 is already fast and accurate
-- ❌ Exp 7 (Lower dropout) - dropout didn't help in Exp 6
-- ❌ Exp 24 (Longer training) - already caused overfitting
+# Phase 6 - Class Imbalance
+uv run python train.py -a efficientnet_b0 --pretrained imagenet --pos-weight 2.0 --notes "Pos weight 2.0"
+```
 
----
-
-## Usage
-
+### View Results
 ```bash
 # View all experiments
 uv run python scripts/view_experiments.py list
@@ -154,3 +174,36 @@ uv run python scripts/view_experiments.py show <exp_id>
 # Update summary after new experiments
 uv run python scripts/update_experiments_summary.py
 ```
+
+---
+
+## Architecture Comparison (For Report)
+
+### Architecture Families
+
+| Family | Models | Key Characteristics |
+|--------|--------|---------------------|
+| **VGG** | vgg11, vgg13, vgg16, vgg19 | Classic deep CNN, simple stack of conv layers |
+| **ResNet** | resnet18, resnet34, resnet50 | Residual connections, skip connections |
+| **DenseNet** | densenet121, densenet161, densenet169, densenet201 | Dense connectivity, feature reuse |
+| **MobileNet** | mobilenet_v2, mobilenet_v3_small, mobilenet_v3_large | Depthwise separable conv, mobile-optimized |
+| **EfficientNet** | efficientnet_b0, b1, v2_s, v2_m, v2_l | Compound scaling, efficient |
+| **ConvNeXt** | convnext_tiny, small, base | Modern CNN with transformer-style design |
+| **ViT** | vit_b_16, vit_b_32 | Pure vision transformer, patch-based |
+| **Swin** | swin_t, swin_s, swin_b | Hierarchical vision transformer |
+| **Custom** | custom_cnn | Baseline CNN from scratch |
+
+### Expected Performance (Hypothesis)
+
+| Architecture | Expected F1 | Expected Speed | Notes |
+|--------------|-------------|----------------|-------|
+| VGG11/13 | 0.70-0.73 | Fast | Lightweight classic |
+| VGG16/19 | 0.72-0.75 | Slow | Heavy, may overfit |
+| DenseNet121 | 0.74-0.76 | Medium | Efficient dense connections |
+| DenseNet161+ | 0.75-0.77 | Slow | Very deep, diminishing returns |
+| MobileNetV2 | 0.70-0.73 | Very Fast | Lightweight, good for edge |
+| MobileNetV3 | 0.71-0.74 | Very Fast | Improved V2 |
+| ConvNeXt-T | 0.75-0.77 | Medium | Modern competitive |
+| ViT-B/16 | 0.73-0.76 | Slow | Needs more data |
+| Swin-T | 0.74-0.77 | Medium | Hierarchical helps |
+| EffNetV2-S | 0.76-0.78 | Fast | Improved V1 |

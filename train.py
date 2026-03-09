@@ -52,8 +52,26 @@ def parse_args():
         "--architecture", "-a",
         type=str,
         required=True,
-        choices=["resnet18", "resnet34", "resnet50", "efficientnet_b0", "efficientnet_b1",
-                 "vit_b_16", "vit_b_32", "custom_cnn"],
+        choices=[
+            # ResNet family
+            "resnet18", "resnet34", "resnet50",
+            # EfficientNet family
+            "efficientnet_b0", "efficientnet_b1",
+            "efficientnet_v2_s", "efficientnet_v2_m", "efficientnet_v2_l",
+            # Vision Transformers
+            "vit_b_16", "vit_b_32",
+            "swin_t", "swin_s", "swin_b",
+            # VGG family (classic CNNs)
+            "vgg11", "vgg13", "vgg16", "vgg19",
+            # DenseNet family
+            "densenet121", "densenet161", "densenet169", "densenet201",
+            # MobileNet family (lightweight)
+            "mobilenet_v2", "mobilenet_v3_small", "mobilenet_v3_large",
+            # ConvNeXt (modern CNN)
+            "convnext_tiny", "convnext_small", "convnext_base",
+            # Custom baseline
+            "custom_cnn",
+        ],
         help="Model architecture to use"
     )
 
