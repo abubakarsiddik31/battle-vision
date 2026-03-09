@@ -31,7 +31,7 @@
 | **Exp-D1** | DenseNet121 | `uv run python train.py -a densenet121 --pretrained imagenet --notes "DenseNet121 - dense connectivity"` | ✅ Done | **0.7830** | **0.6412** ⭐ |
 | **Exp-M1** | MobileNetV2 | `uv run python train.py -a mobilenet_v2 --pretrained imagenet --notes "MobileNetV2 - lightweight mobile"` | ✅ Done | 0.7286 | 0.5588 |
 | **Exp-C1** | ConvNeXt-Tiny | `uv run python train.py -a convnext_tiny --pretrained imagenet --notes "ConvNeXt-Tiny - modern CNN"` | ✅ Done | **0.7854** | **0.6235** ⭐ |
-| **Exp-T1** | ViT-B/16 | `uv run python train.py -a vit_b_16 --pretrained imagenet --notes "ViT-B/16 - vision transformer"` | ⬜ Todo | - | - |
+| **Exp-T1** | ViT-B/16 | `uv run python train.py -a vit_b_16 --pretrained imagenet --notes "ViT-B/16 - vision transformer"` | ✅ Done | 0.7563 | 0.5882 |
 | **Exp-S1** | Swin-Tiny | `uv run python train.py -a swin_t --pretrained imagenet --notes "Swin-Tiny - hierarchical transformer"` | ⬜ Todo | - | - |
 | **Exp-E1** | EffNetV2-S | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --notes "EfficientNetV2-S - improved V1"` | ⬜ Todo | - | - |
 | **Exp-U1** | Custom CNN | `uv run python train.py -a custom_cnn --pretrained none --epochs 30 --notes "Custom CNN from scratch"` | ⬜ Todo | - | - |

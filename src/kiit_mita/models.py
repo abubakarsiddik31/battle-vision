@@ -33,6 +33,13 @@ class MultiLabelClassifier(nn.Module):
             # ResNet style
             in_features = backbone.fc.in_features
             backbone.fc = nn.Identity()  # Remove original classification head
+        elif hasattr(backbone, 'heads'):
+            # ViT/Swin style - has heads attribute
+            if hasattr(backbone.heads, '__getitem__'):
+                in_features = backbone.heads[0].in_features
+            else:
+                in_features = backbone.heads.in_features
+            backbone.heads = nn.Identity()
         elif hasattr(backbone, 'classifier'):
             # Check if it's VGG (classifier is Sequential with first layer taking 25088)
             if isinstance(backbone.classifier, nn.Sequential) and len(backbone.classifier) > 0:
