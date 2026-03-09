@@ -150,6 +150,13 @@ def parse_args():
         default=0.9,
         help="Momentum for SGD optimizer"
     )
+    parser.add_argument(
+        "--scheduler",
+        type=str,
+        default=None,
+        choices=["none", "step", "cosine", "onecycle", "plateau"],
+        help="Learning rate scheduler"
+    )
 
     # ===== Data =====
     parser.add_argument(
@@ -451,6 +458,7 @@ def main():
             num_epochs_head=args.epochs_head,
             num_epochs_finetune=args.epochs_finetune,
             learning_rate=args.lr_head,
+            scheduler_type=args.scheduler,
         )
 
     # Final test evaluation

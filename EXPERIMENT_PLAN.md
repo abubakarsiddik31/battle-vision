@@ -1,9 +1,9 @@
 # Experiment Plan: KIIT-MiTA Multi-Label Classification
 
-**Last Updated**: 2026-03-09
+**Last Updated**: 2026-03-10
 
 **Best Model**: Swin-Tiny + WD 1e-3 (Micro F1: 0.8326, Acc: 0.6706) ⭐
-**Best Accuracy**: Swin-Tiny + WD 1e-3 + Color Aug (Acc: 0.6882, F1: 0.8073)
+**Best Accuracy**: Swin-Tiny + WD 1e-3 + Cosine Annealing (Acc: 0.6941, F1: 0.8271)
 
 ---
 
@@ -15,11 +15,11 @@
 | **Phase 1** | ✅ Complete | 5/5 | EffNet-B0 wins (F1: 0.7653) |
 | **Phase 2** | ✅ Complete | 10/10 | Both models improved with WD 1e-3! |
 | **Phase 3** | ✅ Complete | 7/7 | Baseline augmentation best; Color improves Acc & Vehicle |
-| **Phase 4** | ⏸️ Skipped | 0/4 | Training Strategies (deferred) |
-| **Phase 5** | ⏸️ Skipped | 0/4 | Learning Rate Schedules (deferred) |
+| **Phase 4** | ✅ Complete | 2/2 | Cosine annealing gives best accuracy (0.6941) |
+| **Phase 5** | ✅ Complete | 2/2 | Baseline (no scheduler) best for F1 |
 | **Phase 6** | ✅ Complete | 6/6 | Class imbalance techniques HURT overall performance |
 
-**Total**: 35/41 experiments completed (85%)
+**Total**: 39/41 experiments completed (95%)
 
 ---
 
@@ -211,7 +211,43 @@
 
 ---
 
-## Phase 4-5: Skipped for Now
+## Phase 4: Training Strategies ✅ COMPLETE
+*[Goal: Test different training configurations]*
+
+### Swin-Tiny + WD 1e-3 Experiments
+
+| ID | Strategy | Command | Status | Micro F1 |
+|----|----------|---------|--------|----------|
+| **Exp-ST1** | Extended Epochs (50) | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --epochs-head 15 --epochs-finetune 35` | ✅ Done | 0.7793 (↓0.053) |
+| **Exp-ST2** | Cosine Annealing | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --scheduler cosine` | ✅ Done | 0.8271 (↓0.006) ⭐ Best Acc! |
+
+---
+
+## Phase 5: Learning Rate Schedules ✅ COMPLETE
+*[Goal: Test different learning rate schedules]*
+
+### Swin-Tiny + WD 1e-3 Experiments
+
+| ID | Schedule | Command | Status | Micro F1 |
+|----|----------|---------|--------|----------|
+| **Exp-SR1** | Step LR | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --scheduler step` | ✅ Done | 0.8112 (↓0.021) |
+| **Exp-SR2** | OneCycle | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --scheduler onecycle` | ✅ Done | 0.7599 (↓0.073) |
+
+### Phase 4-5 Results Summary
+
+| Model | Strategy/Schedule | Micro F1 | vs Baseline | Accuracy |
+|-------|-------------------|----------|-------------|----------|
+| **Swin-T + WD 1e-3** | **Baseline** | **0.8326** | - | 0.6706 |
+| Swin-T | Cosine Annealing | 0.8271 | ↓ 0.006 | **0.6941** ⭐ BEST ACC |
+| Swin-T | Step LR | 0.8112 | ↓ 0.021 | 0.6765 |
+| Swin-T | Extended 50 epochs | 0.7793 | ↓ 0.053 | 0.6118 |
+| Swin-T | OneCycle | 0.7599 | ↓ 0.073 | 0.5941 |
+
+**Conclusion**:
+- **Best Micro F1**: Baseline (no scheduler) with 30 epochs
+- **Best Accuracy**: Cosine Annealing (0.6941)
+- Extended epochs caused overfitting
+- OneCycle performed poorly
 
 ---
 

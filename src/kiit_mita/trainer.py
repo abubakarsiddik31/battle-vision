@@ -354,6 +354,58 @@ class Trainer:
         """Add a tag to the experiment."""
         self.experiment_logger.add_tag(tag)
 
+    def _create_scheduler(
+        self,
+        optimizer: optim.Optimizer,
+        scheduler_type: str,
+        total_epochs: int,
+    ):
+        """
+        Create a learning rate scheduler.
+
+        Args:
+            optimizer: The optimizer to schedule
+            scheduler_type: Type of scheduler ('step', 'cosine', 'onecycle', 'plateau')
+            total_epochs: Total number of epochs for scheduling
+
+        Returns:
+            Scheduler instance or None
+        """
+        if scheduler_type == "step":
+            # Step LR: reduce by 0.1 every 10 epochs
+            return optim.lr_scheduler.StepLR(
+                optimizer,
+                step_size=max(1, total_epochs // 3),
+                gamma=0.1,
+            )
+        elif scheduler_type == "cosine":
+            # Cosine annealing
+            return optim.lr_scheduler.CosineAnnealingLR(
+                optimizer,
+                T_max=total_epochs,
+                eta_min=1e-6,
+            )
+        elif scheduler_type == "onecycle":
+            # OneCycle policy (simulated with CyclicLR)
+            return optim.lr_scheduler.CyclicLR(
+                optimizer,
+                base_lr=optimizer.param_groups[0]['lr'] / 10,
+                max_lr=optimizer.param_groups[0]['lr'] * 10,
+                step_size_up=total_epochs // 2,
+                mode='triangular',
+            )
+        elif scheduler_type == "plateau":
+            # Reduce on plateau
+            return optim.lr_scheduler.ReduceLROnPlateau(
+                optimizer,
+                mode='max',
+                factor=0.5,
+                patience=3,
+                min_lr=1e-6,
+            )
+        else:
+            return None
+
     def train_one_epoch(self, train_loader: DataLoader, optimizer: optim.Optimizer) -> float:
         """Train for one epoch."""
         self.model.train()
@@ -454,6 +506,7 @@ class Trainer:
         num_epochs_head: int = 10,
         num_epochs_finetune: int = 20,
         learning_rate: float = 1e-3,
+        scheduler_type: Optional[str] = None,
     ):
         """Train with transfer learning strategy."""
         global_step = 0
@@ -464,6 +517,7 @@ class Trainer:
             "num_epochs_finetune": num_epochs_finetune,
             "train_samples": len(train_loader.dataset),
             "val_samples": len(val_loader.dataset),
+            "scheduler": scheduler_type or "none",
         })
 
         # Phase 1: Train head only
@@ -473,13 +527,17 @@ class Trainer:
 
         self.experiment_logger.start_iteration(
             "head_training",
-            {"phase": "head", "epochs": num_epochs_head, "lr": learning_rate}
+            {"phase": "head", "epochs": num_epochs_head, "lr": learning_rate, "scheduler": scheduler_type or "none"}
         )
 
         for param in self.model.backbone.parameters():
             param.requires_grad = False
 
         optimizer = optim.Adam(self.model.classifier.parameters(), lr=learning_rate)
+        scheduler = self._create_scheduler(optimizer, scheduler_type, num_epochs_head) if scheduler_type else None
+        if scheduler:
+            print(f"Using scheduler: {scheduler_type}")
+
         best_val_f1 = 0.0
 
         for epoch in range(num_epochs_head):
@@ -495,6 +553,12 @@ class Trainer:
                 best_val_f1 = val_metrics_dict["micro"]["f1"]
                 self.save_checkpoint(epoch, val_loss, val_metrics_dict, "head")
 
+            if scheduler:
+                scheduler.step()
+                current_lr = optimizer.param_groups[0]['lr']
+                if epoch % 5 == 0 or epoch == num_epochs_head - 1:
+                    print(f"  LR after epoch {epoch+1}: {current_lr:.6f}")
+
             global_step += 1
 
         self.experiment_logger.finish_iteration({"best_val_f1": best_val_f1})
@@ -506,13 +570,16 @@ class Trainer:
 
         self.experiment_logger.start_iteration(
             "finetuning",
-            {"phase": "finetune", "epochs": num_epochs_finetune, "lr": learning_rate / 10}
+            {"phase": "finetune", "epochs": num_epochs_finetune, "lr": learning_rate / 10, "scheduler": scheduler_type or "none"}
         )
 
         for param in self.model.parameters():
             param.requires_grad = True
 
         optimizer = optim.Adam(self.model.parameters(), lr=learning_rate / 10)
+        scheduler = self._create_scheduler(optimizer, scheduler_type, num_epochs_finetune) if scheduler_type else None
+        if scheduler:
+            print(f"Using scheduler: {scheduler_type}")
         best_val_f1 = 0.0
 
         for epoch in range(num_epochs_finetune):
@@ -527,6 +594,12 @@ class Trainer:
             if val_metrics_dict["micro"]["f1"] > best_val_f1:
                 best_val_f1 = val_metrics_dict["micro"]["f1"]
                 self.save_checkpoint(epoch, val_loss, val_metrics_dict, "finetune")
+
+            if scheduler:
+                scheduler.step()
+                current_lr = optimizer.param_groups[0]['lr']
+                if epoch % 5 == 0 or epoch == num_epochs_finetune - 1:
+                    print(f"  LR after epoch {epoch+1}: {current_lr:.6f}")
 
             global_step += 1
 
