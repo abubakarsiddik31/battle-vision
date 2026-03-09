@@ -25,6 +25,50 @@ from .models import create_model
 from .experiment_logger import ExperimentLogger, format_results_for_logging
 
 
+class FocalLoss(nn.Module):
+    """
+    Focal Loss for addressing class imbalance.
+
+    FL(p_t) = -α_t(1 - p_t)^γ log(p_t)
+
+    Where:
+    - p_t is the model's estimated probability for the correct class
+    - γ (gamma) is the focusing parameter (default: 2.0)
+    - α (alpha) is the weighting factor (not implemented here, using pos_weight instead)
+    """
+
+    def __init__(self, gamma: float = 2.0, pos_weight: Optional[torch.Tensor] = None):
+        super().__init__()
+        self.gamma = gamma
+        self.pos_weight = pos_weight
+
+    def forward(self, logits: torch.Tensor, labels: torch.Tensor) -> torch.Tensor:
+        """
+        Args:
+            logits: Raw predictions (batch_size, num_classes)
+            labels: Ground truth labels (batch_size, num_classes)
+
+        Returns:
+            Focal loss value
+        """
+        # Compute binary cross entropy with logits (without reduction)
+        bce = nn.functional.binary_cross_entropy_with_logits(
+            logits, labels, reduction='none', pos_weight=self.pos_weight
+        )
+
+        # Compute probabilities
+        probs = torch.sigmoid(logits)
+
+        # Compute p_t: probability of the true class
+        p_t = probs * labels + (1 - probs) * (1 - labels)
+
+        # Compute focal loss: (1 - p_t)^gamma * BCE
+        focal_weight = (1 - p_t) ** self.gamma
+        focal_loss = focal_weight * bce
+
+        return focal_loss.mean()
+
+
 # Paths
 PROJECT_ROOT = Path("/home/abubakar/Desktop/Research/DL-assignment")
 CHECKPOINT_DIR = PROJECT_ROOT / "checkpoints"
@@ -165,11 +209,22 @@ class Trainer:
         experiment_name: Optional[str] = None,
         experiment_notes: Optional[str] = None,
         experiment_tags: Optional[List[str]] = None,
+        loss_type: str = "bce",
+        pos_weight: float = 1.0,
+        class_weights: Optional[List[float]] = None,
+        focal_gamma: float = 2.0,
     ):
         self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
         self.model = model.to(self.device)
         self.model_name = model_name
-        self.criterion = nn.BCEWithLogitsLoss()
+
+        # Create loss function
+        self.criterion = self._create_criterion(
+            loss_type=loss_type,
+            pos_weight=pos_weight,
+            class_weights=class_weights,
+            focal_gamma=focal_gamma,
+        )
 
         # Metrics
         self.train_metrics = MultiLabelMetrics(NUM_CLASSES, CLASS_NAMES)
@@ -209,6 +264,84 @@ class Trainer:
 
         print(f"Trainer initialized on {self.device}")
         print(f"Experiment ID: {self.experiment_logger.experiment_id}")
+
+    def _create_criterion(
+        self,
+        loss_type: str,
+        pos_weight: float,
+        class_weights: Optional[List[float]],
+        focal_gamma: float,
+    ) -> nn.Module:
+        """
+        Create the loss function based on specified parameters.
+
+        Args:
+            loss_type: Type of loss ('bce' or 'focal')
+            pos_weight: Positive weight for BCE loss (upweights positive examples)
+            class_weights: Per-class weights (for auto class weighting)
+            focal_gamma: Gamma parameter for focal loss
+
+        Returns:
+            Loss function module
+        """
+        # Handle pos_weight (convert to tensor)
+        pos_weight_tensor = None
+        if pos_weight != 1.0:
+            pos_weight_tensor = torch.tensor([pos_weight] * NUM_CLASSES, device=self.device)
+            print(f"Using pos_weight={pos_weight} for all classes")
+
+        # Handle class_weights (auto or manual)
+        if class_weights == "auto":
+            # Compute inverse frequency weights
+            class_weights_tensor = self._compute_class_weights()
+            print(f"Using auto class weights: {class_weights_tensor.tolist()}")
+            pos_weight_tensor = class_weights_tensor
+        elif class_weights is not None:
+            pos_weight_tensor = torch.tensor(class_weights, device=self.device)
+            print(f"Using manual class weights: {class_weights}")
+
+        # Create loss function
+        if loss_type == "focal":
+            print(f"Using Focal Loss with gamma={focal_gamma}")
+            criterion = FocalLoss(gamma=focal_gamma, pos_weight=pos_weight_tensor)
+        else:  # Default: BCEWithLogitsLoss
+            if pos_weight_tensor is not None:
+                print(f"Using BCEWithLogitsLoss with pos_weight")
+            else:
+                print(f"Using BCEWithLogitsLoss (standard)")
+            criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
+
+        return criterion
+
+    def _compute_class_weights(self) -> torch.Tensor:
+        """
+        Compute class weights based on inverse frequency.
+
+        Weight for class i = total_samples / (num_classes * samples_in_class_i)
+
+        Returns:
+            Tensor of shape (num_classes,) with weights for each class
+        """
+        # Load training data to compute class frequencies
+        train_dataset = KiitMitaDataset(
+            annotations_path=f"{PROJECT_ROOT}/data/train_annotations.json",
+            dataset_root=str(PROJECT_ROOT / "KIIT-MiTA"),
+            transform=None,  # Don't need transforms for counting
+        )
+
+        # Count positive examples for each class
+        class_counts = torch.zeros(NUM_CLASSES)
+        for _, labels in train_dataset:
+            class_counts += labels
+
+        # Compute inverse frequency weights
+        total_samples = len(train_dataset)
+        weights = total_samples / (NUM_CLASSES * (class_counts + 1e-6))  # Add epsilon to avoid div by zero
+
+        # Normalize weights to have mean of 1.0 (helps with stability)
+        weights = weights / weights.mean()
+
+        return weights.to(self.device)
 
     def add_note(self, note: str):
         """Add a note to the experiment log."""

@@ -2,7 +2,7 @@
 
 **Last Updated**: 2026-03-09
 
-**Best Model**: Swin-Tiny + WD 1e-3 (Micro F1: 0.8326, Acc: 0.6706) ⭐ NEW!
+**Best Model**: Swin-Tiny + WD 1e-3 (Micro F1: 0.8326, Acc: 0.6706) ⭐
 
 ---
 
@@ -13,12 +13,12 @@
 | **Phase 0** | ✅ Complete | 7/8 | Swin-Tiny wins (F1: 0.8083) - Custom CNN skipped |
 | **Phase 1** | ✅ Complete | 5/5 | EffNet-B0 wins (F1: 0.7653) |
 | **Phase 2** | ✅ Complete | 10/10 | Both models improved with WD 1e-3! |
-| **Phase 3** | ⬜ Pending | 0/5 | - |
-| **Phase 4** | ⬜ Pending | 0/4 | - |
-| **Phase 5** | ⬜ Pending | 0/4 | - |
-| **Phase 6** | ⬜ Pending | 0/4 | - |
+| **Phase 3** | ⏸️ Skipped | 0/5 | Data Augmentation (deferred) |
+| **Phase 4** | ⏸️ Skipped | 0/4 | Training Strategies (deferred) |
+| **Phase 5** | ⏸️ Skipped | 0/4 | Learning Rate Schedules (deferred) |
+| **Phase 6** | ✅ Complete | 6/6 | Class imbalance techniques HURT overall performance |
 
-**Total**: 22/36 experiments completed (61%)
+**Total**: 28/40 experiments completed (70%)
 
 ---
 
@@ -128,14 +128,46 @@
 
 ---
 
-## Phase 3-6: Skipped for Now
-*(Data Augmentation, Training Strategies, Class Imbalance - can be explored later if needed)*
-*[Goal: Improve performance on minority classes]*
+## Phase 6: Class Imbalance Handling ✅ COMPLETE
+*[Goal: Improve performance on minority classes - Vehicle (0.67) & Soldier (0.71)]*
 
-- [ ] **Exp 25**: `pos_weight=2.0` (upweight positive class)
-- [ ] **Exp 26**: `pos_weight=3.0` (stronger upweighting)
-- [ ] **Exp 27**: Focal Loss (focus on hard examples)
-- [ ] **Exp 28**: Class-weighted loss (manual class weights)
+### Swin-Tiny + WD 1e-3 (Best Overall) Experiments
+
+| ID | Config | Command | Status | Micro F1 | Vehicle F1 |
+|----|--------|---------|--------|----------|------------|
+| **Exp-SI1** | Pos Weight 2.0 | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --pos-weight 2.0` | ✅ Done | 0.7974 (↓0.035) | 0.75 (↑0.08) |
+| **Exp-SI2** | Pos Weight 3.0 | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --pos-weight 3.0` | ✅ Done | 0.7919 (↓0.041) | 0.67 (flat) |
+| **Exp-SI3** | Focal Loss γ=2.0 | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --loss focal --gamma 2.0` | ✅ Done | 0.7981 (↓0.035) | 0.74 (↑0.07) |
+| **Exp-SI4** | Class Weights Auto | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --class-weights auto` | ✅ Done | 0.7907 (↓0.042) | 0.68 (↑0.01) |
+
+### EffNetV2-S + WD 1e-3 (Best CNN) Experiments
+
+| ID | Config | Command | Status | Micro F1 | Vehicle F1 |
+|----|--------|---------|--------|----------|------------|
+| **Exp-EI1** | Pos Weight 2.0 | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --weight-decay 1e-3 --pos-weight 2.0` | ✅ Done | 0.7883 (↓0.020) | 0.70 (↑0.03) |
+| **Exp-EI2** | Pos Weight 3.0 | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --weight-decay 1e-3 --pos-weight 3.0` | ✅ Done | 0.7919 (↓0.017) | **0.74** (↑0.07) |
+
+### Phase 6 Results Summary
+
+**Key Finding**: Class imbalance techniques HURT overall performance while helping Vehicle
+
+| Model | Config | Micro F1 | vs Baseline | Vehicle F1 |
+|-------|--------|----------|-------------|-----------|
+| **Swin-T + WD 1e-3** | Baseline | **0.8326** | - | 0.67 |
+| Swin-T | + Pos Weight 2.0 | 0.7974 | ↓ 0.035 | 0.75 |
+| Swin-T | + Focal Loss | 0.7981 | ↓ 0.035 | 0.74 |
+| Swin-T | + Pos Weight 3.0 | 0.7919 | ↓ 0.041 | 0.67 |
+| Swin-T | + Auto Weights | 0.7907 | ↓ 0.042 | 0.68 |
+| **EffNetV2-S + WD 1e-3** | Baseline | **0.8084** | - | 0.67 |
+| EffNetV2-S | + Pos Weight 2.0 | 0.7883 | ↓ 0.020 | 0.70 |
+| EffNetV2-S | + Pos Weight 3.0 | 0.7919 | ↓ 0.017 | 0.74 |
+
+**Conclusion**: The baseline with standard BCE loss and WD 1e-3 remains the best approach. Class imbalance techniques improve Vehicle F1 but hurt overall performance.
+
+---
+
+## Phase 3-5: Skipped for Now
+*(Data Augmentation, Training Strategies, Learning Rate Schedules - can be explored later if needed)*
 
 ---
 

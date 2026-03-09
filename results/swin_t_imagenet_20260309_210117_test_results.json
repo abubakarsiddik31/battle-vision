@@ -1,0 +1,120 @@
+{
+  "config": {
+    "architecture": "swin_t",
+    "pretrained": "imagenet",
+    "custom_weights_path": null,
+    "epochs_head": 10,
+    "epochs_finetune": 20,
+    "epochs_total": 30,
+    "lr_head": 0.001,
+    "lr_finetune": 0.0001,
+    "lr_scratch": 0.001,
+    "optimizer": "adam",
+    "weight_decay": 0.001,
+    "momentum": null,
+    "batch_size": 32,
+    "image_size": 224,
+    "num_workers": 4,
+    "dropout": 0.3,
+    "freeze_batch_norm": false,
+    "label_smoothing": 0.0,
+    "pos_weight": 1.0,
+    "device": "cuda",
+    "mixed_precision": false,
+    "num_classes": 7,
+    "class_names": [
+      "Artilary",
+      "Missile",
+      "Radar",
+      "M. Rocket Launcher",
+      "Soldier",
+      "Tank",
+      "Vehicle"
+    ]
+  },
+  "metrics": {
+    "Artilary": {
+      "precision": 0.8260869565217391,
+      "recall": 1.0,
+      "f1": 0.9047619047619047,
+      "accuracy": 0.9764705882352941,
+      "tp": 19,
+      "fp": 4,
+      "fn": 0,
+      "tn": 147
+    },
+    "Missile": {
+      "precision": 0.7142857142857143,
+      "recall": 0.8,
+      "f1": 0.7547169811320756,
+      "accuracy": 0.9235294117647059,
+      "tp": 20,
+      "fp": 8,
+      "fn": 5,
+      "tn": 137
+    },
+    "Radar": {
+      "precision": 0.9629629629629629,
+      "recall": 0.9629629629629629,
+      "f1": 0.9629629629629629,
+      "accuracy": 0.9882352941176471,
+      "tp": 26,
+      "fp": 1,
+      "fn": 1,
+      "tn": 142
+    },
+    "M. Rocket Launcher": {
+      "precision": 0.9130434782608695,
+      "recall": 0.75,
+      "f1": 0.8235294117647057,
+      "accuracy": 0.9470588235294117,
+      "tp": 21,
+      "fp": 2,
+      "fn": 7,
+      "tn": 140
+    },
+    "Soldier": {
+      "precision": 0.7647058823529411,
+      "recall": 0.7428571428571429,
+      "f1": 0.7536231884057971,
+      "accuracy": 0.9,
+      "tp": 26,
+      "fp": 8,
+      "fn": 9,
+      "tn": 127
+    },
+    "Tank": {
+      "precision": 0.7777777777777778,
+      "recall": 0.7567567567567568,
+      "f1": 0.7671232876712328,
+      "accuracy": 0.9,
+      "tp": 28,
+      "fp": 8,
+      "fn": 9,
+      "tn": 125
+    },
+    "Vehicle": {
+      "precision": 0.7317073170731707,
+      "recall": 0.6382978723404256,
+      "f1": 0.6818181818181819,
+      "accuracy": 0.8352941176470589,
+      "tp": 30,
+      "fp": 11,
+      "fn": 17,
+      "tn": 112
+    },
+    "micro": {
+      "precision": 0.8018867924528302,
+      "recall": 0.7798165137614679,
+      "f1": 0.7906976744186046,
+      "accuracy": 0.9243697478991597
+    },
+    "macro": {
+      "precision": 0.8129385841764536,
+      "recall": 0.8072678192738983,
+      "f1": 0.8069337026452656
+    },
+    "exact_match_accuracy": 0.6352941176470588
+  },
+  "loss": 0.3200221093261943
+}

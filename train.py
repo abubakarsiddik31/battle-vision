@@ -195,7 +195,26 @@ def parse_args():
         "--pos-weight",
         type=float,
         default=1.0,
-        help="Positive weight for imbalanced classes"
+        help="Positive weight for imbalanced classes (applied to all classes)"
+    )
+    parser.add_argument(
+        "--class-weights",
+        type=str,
+        default=None,
+        help="Class weights: 'auto' for inverse frequency, or comma-separated list (e.g., '1.0,2.0,1.5,...')"
+    )
+    parser.add_argument(
+        "--loss",
+        type=str,
+        default="bce",
+        choices=["bce", "focal"],
+        help="Loss function type"
+    )
+    parser.add_argument(
+        "--gamma",
+        type=float,
+        default=2.0,
+        help="Gamma parameter for focal loss"
     )
 
     # ===== Device =====
@@ -370,6 +389,16 @@ def main():
     print(f"\nCreating model: {args.architecture}")
     model = create_model_from_config(config)
 
+    # Parse class weights argument
+    class_weights = None
+    if args.class_weights == "auto":
+        class_weights = "auto"
+    elif args.class_weights:
+        # Parse comma-separated list
+        class_weights = [float(w) for w in args.class_weights.split(",")]
+        if len(class_weights) != NUM_CLASSES:
+            print(f"Warning: Expected {NUM_CLASSES} class weights, got {len(class_weights)}")
+
     # Create trainer with full config tracking
     trainer = Trainer(
         model=model,
@@ -381,6 +410,10 @@ def main():
         experiment_name=args.exp_name,
         experiment_notes=notes,
         experiment_tags=args.tags or [args.architecture, config["pretrained"]],
+        loss_type=args.loss,
+        pos_weight=args.pos_weight,
+        class_weights=class_weights,
+        focal_gamma=args.gamma,
     )
 
     # Log complete configuration

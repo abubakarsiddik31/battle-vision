@@ -42,6 +42,12 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 <!-- Auto-generated summary will be added below -->
 | Date | Experiment | Architecture | F1 | Accuracy | Notes |
 |------|------------|--------------|-----|----------|-------|
+| 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7919 | 0.6059 | efficientnet_v2_s,imagenet |
+| 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7883 | 0.6059 | efficientnet_v2_s,imagenet |
+| 2026-03-09 | swin_t_imagenet_20260309_21011 | swin_t | 0.7907 | 0.6353 | swin_t,imagenet |
+| 2026-03-09 | swin_t_imagenet_20260309_20532 | swin_t | 0.7981 | 0.6294 | swin_t,imagenet |
+| 2026-03-09 | swin_t_imagenet_20260309_20441 | swin_t | 0.7919 | 0.6059 | swin_t,imagenet |
+| 2026-03-09 | swin_t_imagenet_20260309_19415 | swin_t | 0.7974 | 0.6118 | swin_t,imagenet |
 | 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7720 | 0.6000 | efficientnet_v2_s,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_19041 | swin_t | 0.8046 | 0.6529 | swin_t,imagenet |
 | 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7896 | 0.6118 | efficientnet_v2_s,imagenet |
@@ -56,9 +62,3 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 | 2026-03-09 | vit_b_16_imagenet_20260309_132 | vit_b_16 | 0.7563 | 0.5882 | vit_b_16,imagenet |
 | 2026-03-09 | convnext_tiny_imagenet_2026030 | convnext_tiny | 0.7854 | 0.6235 | convnext_tiny,imagenet |
 | 2026-03-09 | mobilenet_v2_imagenet_20260309 | mobilenet_v2 | 0.7286 | 0.5588 | mobilenet_v2,imagenet |
-| 2026-03-09 | densenet121_imagenet_20260309_ | densenet121 | 0.7830 | 0.6412 | densenet121,imagenet |
-| 2026-03-09 | vgg16_imagenet_20260309_122812 | vgg16 | 0.7021 | 0.5118 | vgg16,imagenet |
-| 2026-03-09 | efficientnet_b0_imagenet_20260 | efficientnet_b0 | 0.7614 | 0.5824 | regularization,dropout,efficie |
-| 2026-03-09 | resnet34_imagenet_20260309_050 | resnet34 | 0.7583 | 0.5824 | arch-explore,resnet34 |
-| 2026-03-09 | resnet34_imagenet_20260309_043 | resnet34 | 0.7209 | 0.5588 | arch-explore,resnet34 |
-| 2026-03-09 | resnet18_imagenet_20260309_043 | resnet18 | 0.7189 | 0.5529 | arch-explore,resnet18 |
