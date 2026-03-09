@@ -1,13 +1,14 @@
 # Experiments Summary
 
-Generated: 2026-03-09 15:31:52
+Generated: 2026-03-09 15:48:32
 
-Total Experiments: 17
+Total Experiments: 18
 
 ## Quick Reference
 
 | Date | Experiment | Architecture | Pretrained | Micro F1 | Acc | Tags |
 |------|------------|--------------|------------|----------|-----|------|
+| 2026-03-09 | swin_t_imagenet_20260309_154104 | swin_t | imagenet | 0.8037 | 0.6529 | swin_t,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_152431 | swin_t | imagenet | 0.8326 | 0.6706 | swin_t,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_140950 | swin_t | imagenet | 0.8000 | 0.6412 | swin_t,imagenet |
 | 2026-03-09 | efficientnet_v2_s_imagenet_20260309_1353 | efficientnet_v2_s | imagenet | 0.7926 | 0.6412 | efficientnet_v2_s,im |
@@ -27,6 +28,45 @@ Total Experiments: 17
 | 2026-03-09 | resnet50_imagenet_20260309_030219 | resnet50 | imagenet | 0.3470 | 0.1529 | baseline,resnet50,in |
 
 ## Detailed Results
+
+### swin_t_imagenet_20260309_154104
+
+**ID:** `699215ed`
+
+**Date:** 2026-03-09T15:41:06.126506
+
+**Duration:** 442.9s
+
+**Tags:** `swin_t`, `imagenet`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `swin_t`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adamw`
+
+**Results:**
+- Exact Match Accuracy: 0.6529411764705882
+- Micro F1: 0.8037383177570093
+- Micro Precision: 0.819047619047619
+- Micro Recall: 0.7889908256880734
+- Macro F1: 0.8216474831266938
+
+**Per-Class F1:**
+- Artilary: 0.8947368421052632
+- Missile: 0.76
+- Radar: 0.9615384615384615
+- M. Rocket Launcher: 0.8679245283018867
+- Soldier: 0.782608695652174
+- Tank: 0.8108108108108109
+- Vehicle: 0.6739130434782609
+
+---
 
 ### swin_t_imagenet_20260309_152431
 
