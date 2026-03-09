@@ -42,6 +42,7 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 <!-- Auto-generated summary will be added below -->
 | Date | Experiment | Architecture | F1 | Accuracy | Notes |
 |------|------------|--------------|-----|----------|-------|
+| 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7926 | 0.6412 | efficientnet_v2_s,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_13421 | swin_t | 0.8083 | 0.6706 | swin_t,imagenet |
 | 2026-03-09 | vit_b_16_imagenet_20260309_132 | vit_b_16 | 0.7563 | 0.5882 | vit_b_16,imagenet |
 | 2026-03-09 | convnext_tiny_imagenet_2026030 | convnext_tiny | 0.7854 | 0.6235 | convnext_tiny,imagenet |

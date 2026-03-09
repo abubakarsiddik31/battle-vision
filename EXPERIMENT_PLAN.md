@@ -33,7 +33,7 @@
 | **Exp-C1** | ConvNeXt-Tiny | `uv run python train.py -a convnext_tiny --pretrained imagenet --notes "ConvNeXt-Tiny - modern CNN"` | ✅ Done | **0.7854** | **0.6235** ⭐ |
 | **Exp-T1** | ViT-B/16 | `uv run python train.py -a vit_b_16 --pretrained imagenet --notes "ViT-B/16 - vision transformer"` | ✅ Done | 0.7563 | 0.5882 |
 | **Exp-S1** | Swin-Tiny | `uv run python train.py -a swin_t --pretrained imagenet --notes "Swin-Tiny - hierarchical transformer"` | ✅ Done | **0.8083** | **0.6706** ⭐ |
-| **Exp-E1** | EffNetV2-S | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --notes "EfficientNetV2-S - improved V1"` | ⬜ Todo | - | - |
+| **Exp-E1** | EffNetV2-S | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --notes "EfficientNetV2-S - improved V1"` | ✅ Done | 0.7926 | 0.6412 |
 | **Exp-U1** | Custom CNN | `uv run python train.py -a custom_cnn --pretrained none --epochs 30 --notes "Custom CNN from scratch"` | ⬜ Todo | - | - |
 
 ---
