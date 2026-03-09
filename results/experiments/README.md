@@ -42,6 +42,10 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 <!-- Auto-generated summary will be added below -->
 | Date | Experiment | Architecture | F1 | Accuracy | Notes |
 |------|------------|--------------|-----|----------|-------|
+| 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7606 | 0.5706 | efficientnet_v2_s,imagenet |
+| 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7752 | 0.6059 | efficientnet_v2_s,imagenet |
+| 2026-03-09 | swin_t_imagenet_20260309_22395 | swin_t | 0.8083 | 0.6471 | swin_t,imagenet |
+| 2026-03-09 | swin_t_imagenet_20260309_22310 | swin_t | 0.8073 | 0.6882 | swin_t,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_22014 | swin_t | 0.7981 | 0.6353 | swin_t,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_21534 | swin_t | 0.7739 | 0.6353 | swin_t,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_21434 | swin_t | 0.8121 | 0.6529 | swin_t,imagenet |
@@ -58,7 +62,3 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 | 2026-03-09 | swin_t_imagenet_20260309_17384 | swin_t | 0.7954 | 0.6235 | swin_t,imagenet |
 | 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.8084 | 0.6706 | efficientnet_v2_s,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_15410 | swin_t | 0.8037 | 0.6529 | swin_t,imagenet |
-| 2026-03-09 | swin_t_imagenet_20260309_15243 | swin_t | 0.8326 | 0.6706 | swin_t,imagenet |
-| 2026-03-09 | swin_t_imagenet_20260309_14095 | swin_t | 0.8000 | 0.6412 | swin_t,imagenet |
-| 2026-03-09 | efficientnet_v2_s_imagenet_202 | efficientnet_v2_s | 0.7926 | 0.6412 | efficientnet_v2_s,imagenet |
-| 2026-03-09 | swin_t_imagenet_20260309_13421 | swin_t | 0.8083 | 0.6706 | swin_t,imagenet |

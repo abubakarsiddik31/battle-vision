@@ -3,6 +3,7 @@
 **Last Updated**: 2026-03-09
 
 **Best Model**: Swin-Tiny + WD 1e-3 (Micro F1: 0.8326, Acc: 0.6706) ⭐
+**Best Accuracy**: Swin-Tiny + WD 1e-3 + Color Aug (Acc: 0.6882, F1: 0.8073)
 
 ---
 
@@ -13,12 +14,12 @@
 | **Phase 0** | ✅ Complete | 7/8 | Swin-Tiny wins (F1: 0.8083) - Custom CNN skipped |
 | **Phase 1** | ✅ Complete | 5/5 | EffNet-B0 wins (F1: 0.7653) |
 | **Phase 2** | ✅ Complete | 10/10 | Both models improved with WD 1e-3! |
-| **Phase 3** | 🟡 In Progress | 0/7 | Testing different augmentation strategies |
+| **Phase 3** | ✅ Complete | 7/7 | Baseline augmentation best; Color improves Acc & Vehicle |
 | **Phase 4** | ⏸️ Skipped | 0/4 | Training Strategies (deferred) |
 | **Phase 5** | ⏸️ Skipped | 0/4 | Learning Rate Schedules (deferred) |
 | **Phase 6** | ✅ Complete | 6/6 | Class imbalance techniques HURT overall performance |
 
-**Total**: 28/41 experiments completed (68%)
+**Total**: 35/41 experiments completed (85%)
 
 ---
 
@@ -176,17 +177,37 @@
 | **Exp-SA1** | None | No augmentation, only resize & normalize | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --augmentation none --notes "Swin-T + WD 1e-3 + no augmentation"` | ✅ Done | 0.8121 (↓0.021) |
 | **Exp-SA2** | Light | Minimal: crop (0.9-1.0), h-flip (30%), rotation (-5 to +5) | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --augmentation light --notes "Swin-T + WD 1e-3 + light augmentation"` | ✅ Done | 0.7739 (↓0.059) |
 | **Exp-SA3** | Strong | Stronger: crop (0.6-1.0), h-flip (50%), rotation (-30 to +30), v-flip (20%) | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --augmentation strong --notes "Swin-T + WD 1e-3 + strong augmentation"` | ✅ Done | 0.7981 (↓0.035) |
-| **Exp-SA2** | Light | Minimal: crop (0.9-1.0), h-flip (30%), rotation (-5 to +5) | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --augmentation light --notes "Swin-T + WD 1e-3 + light augmentation"` | ⬜ Todo | - |
-| **Exp-SA3** | Strong | Stronger: crop (0.6-1.0), h-flip (50%), rotation (-30 to +30), v-flip (20%) | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --augmentation strong --notes "Swin-T + WD 1e-3 + strong augmentation"` | ⬜ Todo | - |
-| **Exp-SA4** | Color | Baseline + color jitter (brightness, contrast, saturation) | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --augmentation color --notes "Swin-T + WD 1e-3 + color augmentation"` | ⬜ Todo | - |
-| **Exp-SA5** | Aggressive | Strong + color jitter + gaussian blur | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --augmentation aggressive --notes "Swin-T + WD 1e-3 + aggressive augmentation"` | ⬜ Todo | - |
+| **Exp-SA4** | Color | Baseline + color jitter (brightness, contrast, saturation) | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --augmentation color --notes "Swin-T + WD 1e-3 + color augmentation"` | ✅ Done | 0.8073 (↓0.025) ⭐ Best Acc! |
+| **Exp-SA5** | Aggressive | Strong + color jitter + gaussian blur | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --augmentation aggressive --notes "Swin-T + WD 1e-3 + aggressive augmentation"` | ✅ Done | 0.8083 (↓0.024) |
 
 ### EffNetV2-S + WD 1e-3 (Best CNN) Experiments
 
 | ID | Augmentation | Description | Command | Status | Micro F1 |
 |----|--------------|-------------|---------|--------|----------|
-| **Exp-EA1** | Strong | Stronger augmentation for CNN | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --weight-decay 1e-3 --augmentation strong --notes "EffNetV2-S + WD 1e-3 + strong augmentation"` | ⬜ Todo | - |
-| **Exp-EA2** | Color | Color-based augmentation for CNN | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --weight-decay 1e-3 --augmentation color --notes "EffNetV2-S + WD 1e-3 + color augmentation"` | ⬜ Todo | - |
+| **Exp-EA1** | Strong | Stronger augmentation for CNN | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --weight-decay 1e-3 --augmentation strong --notes "EffNetV2-S + WD 1e-3 + strong augmentation"` | ✅ Done | 0.7752 (↓0.033) |
+| **Exp-EA2** | Color | Color-based augmentation for CNN | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --weight-decay 1e-3 --augmentation color --notes "EffNetV2-S + WD 1e-3 + color augmentation"` | ✅ Done | 0.7606 (↓0.048) |
+
+### Phase 3 Results Summary
+
+**Key Finding**: Baseline augmentation is optimal for Micro F1, but color augmentation improves accuracy and Vehicle class
+
+| Model | Augmentation | Micro F1 | vs Baseline | Accuracy | Vehicle F1 |
+|-------|--------------|----------|-------------|----------|------------|
+| **Swin-T + WD 1e-3** | **Baseline** | **0.8326** | - | 0.6706 | 0.67 |
+| Swin-T | Color | 0.8073 | ↓ 0.025 | **0.6882** ⭐ | **0.75** |
+| Swin-T | Aggressive | 0.8083 | ↓ 0.024 | 0.6471 | 0.73 |
+| Swin-T | None | 0.8121 | ↓ 0.021 | 0.6529 | **0.74** |
+| Swin-T | Strong | 0.7981 | ↓ 0.035 | 0.6353 | 0.68 |
+| Swin-T | Light | 0.7739 | ↓ 0.059 | 0.6353 | 0.70 |
+| **EffNetV2-S + WD 1e-3** | **Baseline** | **0.8084** | - | 0.6706 | 0.67 |
+| EffNetV2-S | Strong | 0.7752 | ↓ 0.033 | 0.6059 | 0.70 |
+| EffNetV2-S | Color | 0.7606 | ↓ 0.048 | 0.5706 | 0.69 |
+
+**Conclusion**:
+- **Best overall**: Baseline augmentation (F1: 0.8326)
+- **Best accuracy**: Color augmentation on Swin-T (Acc: 0.6882)
+- **Best Vehicle**: Color/None augmentation (F1: 0.74-0.75)
+- All augmentation changes hurt overall Micro F1
 
 ---
 
