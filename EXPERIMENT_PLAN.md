@@ -10,7 +10,7 @@
 
 | Phase | Status | Experiments | Key Findings |
 |-------|--------|-------------|--------------|
-| **Phase 0** | 🟡 In Progress | 0/8 | Architecture survey - 1 per family |
+| **Phase 0** | 🟡 In Progress | 1/8 | VGG16: F1=0.7021 (slower than EffNet) |
 | **Phase 1** | ✅ Complete | 5/5 | EffNet-B0 wins (F1: 0.7653) |
 | **Phase 2** | 🟡 In Progress | 1/6 | Dropout 0.5 hurt performance |
 | **Phase 3** | ⬜ Pending | 0/5 | - |
@@ -27,8 +27,8 @@
 
 | ID | Architecture | Command | Status | Micro F1 | Accuracy |
 |----|--------------|---------|--------|----------|----------|
-| **Exp-V1** | VGG16 | `uv run python train.py -a vgg16 --pretrained imagenet --notes "VGG16 - classic deep CNN"` | ⬜ Todo | - | - |
-| **Exp-D1** | DenseNet121 | `uv run python train.py -a densenet121 --pretrained imagenet --notes "DenseNet121 - dense connectivity"` | ⬜ Todo | - | - |
+| **Exp-V1** | VGG16 | `uv run python train.py -a vgg16 --pretrained imagenet --notes "VGG16 - classic deep CNN"` | ✅ Done | 0.7021 | 0.5118 |
+| **Exp-D1** | DenseNet121 | `uv run python train.py -a densenet121 --pretrained imagenet --notes "DenseNet121 - dense connectivity"` | 🟡 Running | - | - |
 | **Exp-M1** | MobileNetV2 | `uv run python train.py -a mobilenet_v2 --pretrained imagenet --notes "MobileNetV2 - lightweight mobile"` | ⬜ Todo | - | - |
 | **Exp-C1** | ConvNeXt-Tiny | `uv run python train.py -a convnext_tiny --pretrained imagenet --notes "ConvNeXt-Tiny - modern CNN"` | ⬜ Todo | - | - |
 | **Exp-T1** | ViT-B/16 | `uv run python train.py -a vit_b_16 --pretrained imagenet --notes "ViT-B/16 - vision transformer"` | ⬜ Todo | - | - |

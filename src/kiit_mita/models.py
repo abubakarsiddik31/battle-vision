@@ -26,14 +26,30 @@ class MultiLabelClassifier(nn.Module):
     def __init__(self, backbone: nn.Module, num_classes: int = 7, dropout_rate: float = 0.3):
         super().__init__()
         self.backbone = backbone
+        self.use_avgpool = False
 
         # Get the number of features from the backbone
         if hasattr(backbone, 'fc'):
+            # ResNet style
             in_features = backbone.fc.in_features
             backbone.fc = nn.Identity()  # Remove original classification head
         elif hasattr(backbone, 'classifier'):
-            in_features = backbone.classifier[-1].in_features
-            backbone.classifier = nn.Identity()
+            # Check if it's VGG (classifier is Sequential with first layer taking 25088)
+            if isinstance(backbone.classifier, nn.Sequential) and len(backbone.classifier) > 0:
+                first_layer = backbone.classifier[0]
+                if isinstance(first_layer, nn.Linear) and first_layer.in_features == 25088:
+                    # VGG style - use features part only
+                    in_features = 25088  # VGG16/19 feature size
+                    # Keep avgpool, remove classifier
+                    backbone.classifier = nn.Identity()
+                    self.use_avgpool = True
+                else:
+                    # EfficientNet/MobileNet style
+                    in_features = backbone.classifier[-1].in_features
+                    backbone.classifier = nn.Identity()
+            else:
+                in_features = backbone.classifier.in_features
+                backbone.classifier = nn.Identity()
         else:
             raise ValueError("Unsupported backbone architecture")
 
@@ -48,6 +64,9 @@ class MultiLabelClassifier(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Forward pass."""
         features = self.backbone(x)
+        # VGG returns features without flattening, need to flatten
+        if features.dim() > 2 and not self.use_avgpool:
+            features = torch.flatten(features, 1)
         logits = self.classifier(features)
         return logits
 
