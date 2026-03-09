@@ -33,8 +33,12 @@ class MultiLabelClassifier(nn.Module):
             # ResNet style
             in_features = backbone.fc.in_features
             backbone.fc = nn.Identity()  # Remove original classification head
+        elif hasattr(backbone, 'head'):
+            # ViT/Swin style - has head attribute
+            in_features = backbone.head.in_features
+            backbone.head = nn.Identity()
         elif hasattr(backbone, 'heads'):
-            # ViT/Swin style - has heads attribute
+            # Some models use heads (plural)
             if hasattr(backbone.heads, '__getitem__'):
                 in_features = backbone.heads[0].in_features
             else:
