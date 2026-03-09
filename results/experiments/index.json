@@ -1,6 +1,178 @@
 {
   "experiments": [
     {
+      "experiment_id": "d4a58726",
+      "experiment_name": "swin_t_imagenet_20260309_152431",
+      "start_time": "2026-03-09T15:24:32.460244",
+      "end_time": "2026-03-09T15:31:49.521926",
+      "duration_seconds": 437.061682,
+      "tags": [
+        "swin_t",
+        "imagenet"
+      ],
+      "config": {
+        "model": "swin_t",
+        "learning_rate": 0.001,
+        "num_classes": 7,
+        "classes": [
+          "Artilary",
+          "Missile",
+          "Radar",
+          "M. Rocket Launcher",
+          "Soldier",
+          "Tank",
+          "Vehicle"
+        ],
+        "device": "cuda",
+        "architecture": "swin_t",
+        "pretrained": "imagenet",
+        "custom_weights_path": null,
+        "epochs_head": 10,
+        "epochs_finetune": 20,
+        "epochs_total": 30,
+        "lr_head": 0.001,
+        "lr_finetune": 0.0001,
+        "lr_scratch": 0.001,
+        "optimizer": "adam",
+        "weight_decay": 0.001,
+        "momentum": null,
+        "batch_size": 32,
+        "image_size": 224,
+        "num_workers": 4,
+        "dropout": 0.3,
+        "freeze_batch_norm": false,
+        "label_smoothing": 0.0,
+        "pos_weight": 1.0,
+        "mixed_precision": false,
+        "class_names": [
+          "Artilary",
+          "Missile",
+          "Radar",
+          "M. Rocket Launcher",
+          "Soldier",
+          "Tank",
+          "Vehicle"
+        ],
+        "command_line_args": {
+          "architecture": "swin_t",
+          "pretrained": "imagenet",
+          "custom_weights": null,
+          "epochs_head": 10,
+          "epochs_finetune": 20,
+          "epochs": 30,
+          "lr_head": 0.001,
+          "lr_finetune": 0.0001,
+          "lr_scratch": 0.001,
+          "optimizer": "adam",
+          "weight_decay": 0.001,
+          "momentum": 0.9,
+          "batch_size": 32,
+          "image_size": 224,
+          "num_workers": 4,
+          "dropout": 0.3,
+          "freeze_bn": false,
+          "label_smoothing": 0.0,
+          "pos_weight": 1.0,
+          "device": null,
+          "mixed_precision": false,
+          "notes": "Swin-T + weight_decay 1e-3",
+          "tags": null,
+          "exp_name": "swin_t_imagenet_20260309_152431",
+          "no_trackio": false,
+          "trackio_project": "kiit-mita-classification"
+        },
+        "git_commit": "5bc027eaa5d4b68c03c5a7249337f9be288cde31",
+        "num_epochs_head": 10,
+        "num_epochs_finetune": 20,
+        "train_samples": 1360,
+        "val_samples": 170
+      },
+      "final_results": {
+        "Artilary": {
+          "precision": 0.76,
+          "recall": 1.0,
+          "f1": 0.8636363636363636,
+          "accuracy": 0.9647058823529412,
+          "tp": 19,
+          "fp": 6,
+          "fn": 0,
+          "tn": 145
+        },
+        "Missile": {
+          "precision": 0.8636363636363636,
+          "recall": 0.76,
+          "f1": 0.8085106382978724,
+          "accuracy": 0.9470588235294117,
+          "tp": 19,
+          "fp": 3,
+          "fn": 6,
+          "tn": 142
+        },
+        "Radar": {
+          "precision": 1.0,
+          "recall": 0.9259259259259259,
+          "f1": 0.9615384615384615,
+          "accuracy": 0.9882352941176471,
+          "tp": 25,
+          "fp": 0,
+          "fn": 2,
+          "tn": 143
+        },
+        "M. Rocket Launcher": {
+          "precision": 0.9259259259259259,
+          "recall": 0.8928571428571429,
+          "f1": 0.9090909090909091,
+          "accuracy": 0.9705882352941176,
+          "tp": 25,
+          "fp": 2,
+          "fn": 3,
+          "tn": 140
+        },
+        "Soldier": {
+          "precision": 0.7941176470588235,
+          "recall": 0.7714285714285715,
+          "f1": 0.782608695652174,
+          "accuracy": 0.9117647058823529,
+          "tp": 27,
+          "fp": 7,
+          "fn": 8,
+          "tn": 128
+        },
+        "Tank": {
+          "precision": 0.8205128205128205,
+          "recall": 0.8648648648648649,
+          "f1": 0.8421052631578947,
+          "accuracy": 0.9294117647058824,
+          "tp": 32,
+          "fp": 7,
+          "fn": 5,
+          "tn": 126
+        },
+        "Vehicle": {
+          "precision": 0.8,
+          "recall": 0.6808510638297872,
+          "f1": 0.7356321839080461,
+          "accuracy": 0.8647058823529412,
+          "tp": 32,
+          "fp": 8,
+          "fn": 15,
+          "tn": 115
+        },
+        "micro": {
+          "precision": 0.8443396226415094,
+          "recall": 0.8211009174311926,
+          "f1": 0.8325581395348837,
+          "accuracy": 0.9394957983193277
+        },
+        "macro": {
+          "precision": 0.852027536733419,
+          "recall": 0.8422753669866132,
+          "f1": 0.8433032164688173
+        },
+        "exact_match_accuracy": 0.6705882352941176
+      }
+    },
+    {
       "experiment_id": "35d72fb9",
       "experiment_name": "swin_t_imagenet_20260309_140950",
       "start_time": "2026-03-09T14:09:51.757952",
@@ -2769,5 +2941,5 @@
       }
     }
   ],
-  "last_updated": "2026-03-09T14:17:04.693146"
+  "last_updated": "2026-03-09T15:31:49.528904"
 }

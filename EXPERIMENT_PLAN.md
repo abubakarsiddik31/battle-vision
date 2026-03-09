@@ -2,7 +2,7 @@
 
 **Last Updated**: 2026-03-09
 
-**Best Model**: Swin-Tiny (Micro F1: 0.8083, Acc: 0.6706) ⭐ NEW!
+**Best Model**: Swin-Tiny + WD 1e-3 (Micro F1: 0.8326, Acc: 0.6706) ⭐ NEW!
 
 ---
 
@@ -70,7 +70,7 @@
 | ID | Config | Command | Status | Micro F1 |
 |----|--------|---------|--------|----------|
 | **Exp-SW1** | Weight Decay 1e-4 | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-4 --notes "Swin-T + weight_decay 1e-4"` | ✅ Done | 0.8000 |
-| **Exp-SW2** | Weight Decay 1e-3 | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --notes "Swin-T + weight_decay 1e-3"` | ⬜ Todo | - |
+| **Exp-SW2** | Weight Decay 1e-3 | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --notes "Swin-T + weight_decay 1e-3"` | ✅ Done | **0.8326** ⭐ |
 | **Exp-SW3** | Label Smoothing 0.1 | `uv run python train.py -a swin_t --pretrained imagenet --label-smoothing 0.1 --notes "Swin-T + label_smoothing 0.1"` | ⬜ Todo | - |
 | **Exp-SW4** | AdamW Optimizer | `uv run python train.py -a swin_t --pretrained imagenet --optimizer adamw --weight-decay 1e-4 --notes "Swin-T + AdamW optimizer"` | ⬜ Todo | - |
 | **Exp-SW5** | Lower Finetune LR | `uv run python train.py -a swin_t --pretrained imagenet --lr-finetune 5e-5 --notes "Swin-T + lower finetune LR"` | ⬜ Todo | - |
