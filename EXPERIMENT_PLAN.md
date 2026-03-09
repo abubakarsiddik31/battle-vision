@@ -12,13 +12,13 @@
 |-------|--------|-------------|--------------|
 | **Phase 0** | ✅ Complete | 7/8 | Swin-Tiny wins (F1: 0.8083) - Custom CNN skipped |
 | **Phase 1** | ✅ Complete | 5/5 | EffNet-B0 wins (F1: 0.7653) |
-| **Phase 2** | 🟡 In Progress | 1/10 | Tuning Swin-T & EffNetV2-S with regularization |
+| **Phase 2** | 🟡 In Progress | 3/10 | Swin-T + WD 1e-3 = NEW BEST (F1: 0.8326) |
 | **Phase 3** | ⬜ Pending | 0/5 | - |
 | **Phase 4** | ⬜ Pending | 0/4 | - |
 | **Phase 5** | ⬜ Pending | 0/4 | - |
 | **Phase 6** | ⬜ Pending | 0/4 | - |
 
-**Total**: 13/36 experiments completed (36%)
+**Total**: 16/36 experiments completed (44%)
 
 ---
 
@@ -71,6 +71,18 @@
 |----|--------|---------|--------|----------|
 | **Exp-SW1** | Weight Decay 1e-4 | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-4 --notes "Swin-T + weight_decay 1e-4"` | ✅ Done | 0.8000 |
 | **Exp-SW2** | Weight Decay 1e-3 | `uv run python train.py -a swin_t --pretrained imagenet --weight-decay 1e-3 --notes "Swin-T + weight_decay 1e-3"` | ✅ Done | **0.8326** ⭐ |
+| **Exp-SW3** | Label Smoothing 0.1 | `uv run python train.py -a swin_t --pretrained imagenet --label-smoothing 0.1 --notes "Swin-T + label_smoothing 0.1"` | ⬜ Todo | - |
+| **Exp-SW4** | AdamW Optimizer | `uv run python train.py -a swin_t --pretrained imagenet --optimizer adamw --weight-decay 1e-4 --notes "Swin-T + AdamW optimizer"` | ✅ Done | 0.8037 |
+| **Exp-SW5** | Lower Finetune LR | `uv run python train.py -a swin_t --pretrained imagenet --lr-finetune 5e-5 --notes "Swin-T + lower finetune LR"` | ⬜ Todo | - |
+### EfficientNetV2-S Experiments (Best CNN)
+
+| ID | Config | Command | Status | Micro F1 |
+|----|--------|---------|--------|----------|
+| **Exp-EW1** | Weight Decay 1e-4 | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --weight-decay 1e-4 --notes "EffNetV2-S + weight_decay 1e-4"` | ⬜ Todo | - |
+| **Exp-EW2** | Weight Decay 1e-3 | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --weight-decay 1e-3 --notes "EffNetV2-S + weight_decay 1e-3"` | ✅ Done | **0.8084** ↑ |
+| **Exp-EW3** | Label Smoothing 0.1 | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --label-smoothing 0.1 --notes "EffNetV2-S + label_smoothing 0.1"` | ⬜ Todo | - |
+| **Exp-EW4** | AdamW Optimizer | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --optimizer adamw --weight-decay 1e-4 --notes "EffNetV2-S + AdamW optimizer"` | ⬜ Todo | - |
+| **Exp-EW5** | Lower Finetune LR | `uv run python train.py -a efficientnet_v2_s --pretrained imagenet --lr-finetune 5e-5 --notes "EffNetV2-S + lower finetune LR"` | ⬜ Todo | - |
 | **Exp-SW3** | Label Smoothing 0.1 | `uv run python train.py -a swin_t --pretrained imagenet --label-smoothing 0.1 --notes "Swin-T + label_smoothing 0.1"` | ⬜ Todo | - |
 | **Exp-SW4** | AdamW Optimizer | `uv run python train.py -a swin_t --pretrained imagenet --optimizer adamw --weight-decay 1e-4 --notes "Swin-T + AdamW optimizer"` | ⬜ Todo | - |
 | **Exp-SW5** | Lower Finetune LR | `uv run python train.py -a swin_t --pretrained imagenet --lr-finetune 5e-5 --notes "Swin-T + lower finetune LR"` | ⬜ Todo | - |
