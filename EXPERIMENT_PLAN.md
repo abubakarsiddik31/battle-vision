@@ -2,7 +2,7 @@
 
 **Last Updated**: 2026-03-09
 
-**Best Model**: EfficientNet-B0 (Micro F1: 0.7653, Acc: 0.5941)
+**Best Model**: DenseNet121 (Micro F1: 0.7830, Acc: 0.6412) ⭐ NEW!
 
 ---
 
@@ -28,8 +28,8 @@
 | ID | Architecture | Command | Status | Micro F1 | Accuracy |
 |----|--------------|---------|--------|----------|----------|
 | **Exp-V1** | VGG16 | `uv run python train.py -a vgg16 --pretrained imagenet --notes "VGG16 - classic deep CNN"` | ✅ Done | 0.7021 | 0.5118 |
-| **Exp-D1** | DenseNet121 | `uv run python train.py -a densenet121 --pretrained imagenet --notes "DenseNet121 - dense connectivity"` | 🟡 Running | - | - |
-| **Exp-M1** | MobileNetV2 | `uv run python train.py -a mobilenet_v2 --pretrained imagenet --notes "MobileNetV2 - lightweight mobile"` | ⬜ Todo | - | - |
+| **Exp-D1** | DenseNet121 | `uv run python train.py -a densenet121 --pretrained imagenet --notes "DenseNet121 - dense connectivity"` | ✅ Done | **0.7830** | **0.6412** ⭐ |
+| **Exp-M1** | MobileNetV2 | `uv run python train.py -a mobilenet_v2 --pretrained imagenet --notes "MobileNetV2 - lightweight mobile"` | 🟡 Running | - | - |
 | **Exp-C1** | ConvNeXt-Tiny | `uv run python train.py -a convnext_tiny --pretrained imagenet --notes "ConvNeXt-Tiny - modern CNN"` | ⬜ Todo | - | - |
 | **Exp-T1** | ViT-B/16 | `uv run python train.py -a vit_b_16 --pretrained imagenet --notes "ViT-B/16 - vision transformer"` | ⬜ Todo | - | - |
 | **Exp-S1** | Swin-Tiny | `uv run python train.py -a swin_t --pretrained imagenet --notes "Swin-Tiny - hierarchical transformer"` | ⬜ Todo | - | - |

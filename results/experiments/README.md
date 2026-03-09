@@ -42,6 +42,7 @@ python scripts/view_experiments.py compare <exp_id1> <exp_id2>
 <!-- Auto-generated summary will be added below -->
 | Date | Experiment | Architecture | F1 | Accuracy | Notes |
 |------|------------|--------------|-----|----------|-------|
+| 2026-03-09 | densenet121_imagenet_20260309_ | densenet121 | 0.7830 | 0.6412 | densenet121,imagenet |
 | 2026-03-09 | vgg16_imagenet_20260309_122812 | vgg16 | 0.7021 | 0.5118 | vgg16,imagenet |
 | 2026-03-09 | efficientnet_b0_imagenet_20260 | efficientnet_b0 | 0.7614 | 0.5824 | regularization,dropout,efficie |
 | 2026-03-09 | resnet34_imagenet_20260309_050 | resnet34 | 0.7583 | 0.5824 | arch-explore,resnet34 |
