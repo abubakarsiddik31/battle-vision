@@ -9,6 +9,8 @@ dependencies = [
     "Pillow>=9.0.0",
     "numpy>=1.21.0",
     "tqdm>=4.65.0",
+    "matplotlib>=3.10.8",
+    "seaborn>=0.13.2",
 ]
 
 [project.optional-dependencies]
