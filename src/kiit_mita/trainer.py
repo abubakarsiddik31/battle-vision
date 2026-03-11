@@ -15,6 +15,7 @@ from tqdm import tqdm
 
 try:
     import trackio
+
     TRACKIO_AVAILABLE = True
 except ImportError:
     TRACKIO_AVAILABLE = False
@@ -53,7 +54,7 @@ class FocalLoss(nn.Module):
         """
         # Compute binary cross entropy with logits (without reduction)
         bce = nn.functional.binary_cross_entropy_with_logits(
-            logits, labels, reduction='none', pos_weight=self.pos_weight
+            logits, labels, reduction="none", pos_weight=self.pos_weight
         )
 
         # Compute probabilities
@@ -70,7 +71,7 @@ class FocalLoss(nn.Module):
 
 
 # Paths
-PROJECT_ROOT = Path("/home/abubakar/Desktop/Research/DL-assignment")
+PROJECT_ROOT = Path(__file__).parent.parent.parent
 CHECKPOINT_DIR = PROJECT_ROOT / "checkpoints"
 RESULTS_DIR = PROJECT_ROOT / "results"
 EXPERIMENTS_DIR = RESULTS_DIR / "experiments"
@@ -100,7 +101,12 @@ class TrackioLogger:
         if self.enabled:
             trackio.log(metrics)
         else:
-            metrics_str = " | ".join([f"{k}: {v:.4f}" if isinstance(v, float) else f"{k}: {v}" for k, v in metrics.items()])
+            metrics_str = " | ".join(
+                [
+                    f"{k}: {v:.4f}" if isinstance(v, float) else f"{k}: {v}"
+                    for k, v in metrics.items()
+                ]
+            )
             print(f"  [Step {step}] {metrics_str}" if step else f"  {metrics_str}")
 
     def finish(self):
@@ -143,15 +149,24 @@ class MultiLabelMetrics:
 
             precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
             recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
-            f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
-            accuracy = (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else 0.0
+            f1 = (
+                2 * precision * recall / (precision + recall)
+                if (precision + recall) > 0
+                else 0.0
+            )
+            accuracy = (
+                (tp + tn) / (tp + tn + fp + fn) if (tp + tn + fp + fn) > 0 else 0.0
+            )
 
             metrics[class_name] = {
                 "precision": float(precision),
                 "recall": float(recall),
                 "f1": float(f1),
                 "accuracy": float(accuracy),
-                "tp": int(tp), "fp": int(fp), "fn": int(fn), "tn": int(tn),
+                "tp": int(tp),
+                "fp": int(fp),
+                "fn": int(fn),
+                "tn": int(tn),
             }
 
         # Micro & macro averages
@@ -161,17 +176,29 @@ class MultiLabelMetrics:
         total_tn = np.sum((all_preds == 0) & (all_labels == 0))
 
         metrics["micro"] = {
-            "precision": float(total_tp / (total_tp + total_fp)) if (total_tp + total_fp) > 0 else 0.0,
-            "recall": float(total_tp / (total_tp + total_fn)) if (total_tp + total_fn) > 0 else 0.0,
-            "f1": float(2 * total_tp / (2 * total_tp + total_fp + total_fn)) if (2 * total_tp + total_fp + total_fn) > 0 else 0.0,
-            "accuracy": float((total_tp + total_tn) / (total_tp + total_tn + total_fp + total_fn)),
+            "precision": float(total_tp / (total_tp + total_fp))
+            if (total_tp + total_fp) > 0
+            else 0.0,
+            "recall": float(total_tp / (total_tp + total_fn))
+            if (total_tp + total_fn) > 0
+            else 0.0,
+            "f1": float(2 * total_tp / (2 * total_tp + total_fp + total_fn))
+            if (2 * total_tp + total_fp + total_fn) > 0
+            else 0.0,
+            "accuracy": float(
+                (total_tp + total_tn) / (total_tp + total_tn + total_fp + total_fn)
+            ),
         }
         metrics["macro"] = {
-            "precision": float(np.mean([metrics[c]["precision"] for c in self.class_names])),
+            "precision": float(
+                np.mean([metrics[c]["precision"] for c in self.class_names])
+            ),
             "recall": float(np.mean([metrics[c]["recall"] for c in self.class_names])),
             "f1": float(np.mean([metrics[c]["f1"] for c in self.class_names])),
         }
-        metrics["exact_match_accuracy"] = float(np.all(all_preds == all_labels, axis=1).mean())
+        metrics["exact_match_accuracy"] = float(
+            np.all(all_preds == all_labels, axis=1).mean()
+        )
 
         return metrics
 
@@ -214,7 +241,9 @@ class Trainer:
         class_weights: Optional[List[float]] = None,
         focal_gamma: float = 2.0,
     ):
-        self.device = torch.device(device or ("cuda" if torch.cuda.is_available() else "cpu"))
+        self.device = torch.device(
+            device or ("cuda" if torch.cuda.is_available() else "cpu")
+        )
         self.model = model.to(self.device)
         self.model_name = model_name
 
@@ -233,19 +262,22 @@ class Trainer:
         # Experiment Logger
         self.experiment_logger = ExperimentLogger(
             project=trackio_project,
-            experiment_name=experiment_name or f"{model_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+            experiment_name=experiment_name
+            or f"{model_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
             notes=experiment_notes,
             tags=experiment_tags or [model_name],
         )
 
         # Log initial config
-        self.experiment_logger.log_config({
-            "model": model_name,
-            "learning_rate": learning_rate,
-            "num_classes": NUM_CLASSES,
-            "classes": CLASS_NAMES,
-            "device": str(self.device),
-        })
+        self.experiment_logger.log_config(
+            {
+                "model": model_name,
+                "learning_rate": learning_rate,
+                "num_classes": NUM_CLASSES,
+                "classes": CLASS_NAMES,
+                "device": str(self.device),
+            }
+        )
 
         # Trackio
         self.use_trackio = use_trackio and TRACKIO_AVAILABLE
@@ -259,7 +291,7 @@ class Trainer:
                     "num_classes": NUM_CLASSES,
                     "classes": CLASS_NAMES,
                     "experiment_id": self.experiment_logger.experiment_id,
-                }
+                },
             )
 
         print(f"Trainer initialized on {self.device}")
@@ -287,7 +319,9 @@ class Trainer:
         # Handle pos_weight (convert to tensor)
         pos_weight_tensor = None
         if pos_weight != 1.0:
-            pos_weight_tensor = torch.tensor([pos_weight] * NUM_CLASSES, device=self.device)
+            pos_weight_tensor = torch.tensor(
+                [pos_weight] * NUM_CLASSES, device=self.device
+            )
             print(f"Using pos_weight={pos_weight} for all classes")
 
         # Handle class_weights (auto or manual)
@@ -336,7 +370,9 @@ class Trainer:
 
         # Compute inverse frequency weights
         total_samples = len(train_dataset)
-        weights = total_samples / (NUM_CLASSES * (class_counts + 1e-6))  # Add epsilon to avoid div by zero
+        weights = total_samples / (
+            NUM_CLASSES * (class_counts + 1e-6)
+        )  # Add epsilon to avoid div by zero
 
         # Normalize weights to have mean of 1.0 (helps with stability)
         weights = weights / weights.mean()
@@ -389,16 +425,16 @@ class Trainer:
             # OneCycle policy (simulated with CyclicLR)
             return optim.lr_scheduler.CyclicLR(
                 optimizer,
-                base_lr=optimizer.param_groups[0]['lr'] / 10,
-                max_lr=optimizer.param_groups[0]['lr'] * 10,
+                base_lr=optimizer.param_groups[0]["lr"] / 10,
+                max_lr=optimizer.param_groups[0]["lr"] * 10,
                 step_size_up=total_epochs // 2,
-                mode='triangular',
+                mode="triangular",
             )
         elif scheduler_type == "plateau":
             # Reduce on plateau
             return optim.lr_scheduler.ReduceLROnPlateau(
                 optimizer,
-                mode='max',
+                mode="max",
                 factor=0.5,
                 patience=3,
                 min_lr=1e-6,
@@ -406,7 +442,9 @@ class Trainer:
         else:
             return None
 
-    def train_one_epoch(self, train_loader: DataLoader, optimizer: optim.Optimizer) -> float:
+    def train_one_epoch(
+        self, train_loader: DataLoader, optimizer: optim.Optimizer
+    ) -> float:
         """Train for one epoch."""
         self.model.train()
         self.train_metrics.reset()
@@ -432,7 +470,9 @@ class Trainer:
         return total_loss / len(train_loader.dataset)
 
     @torch.no_grad()
-    def evaluate(self, dataloader: DataLoader, metrics: MultiLabelMetrics) -> tuple[float, Dict]:
+    def evaluate(
+        self, dataloader: DataLoader, metrics: MultiLabelMetrics
+    ) -> tuple[float, Dict]:
         """Evaluate model on a dataset."""
         self.model.eval()
         metrics.reset()
@@ -452,12 +492,16 @@ class Trainer:
         avg_loss = total_loss / len(dataloader.dataset)
         return avg_loss, metrics.compute()
 
-    def log_metrics(self, epoch: int, phase: str, loss: float, metrics: Dict, step: int):
+    def log_metrics(
+        self, epoch: int, phase: str, loss: float, metrics: Dict, step: int
+    ):
         """Log metrics to console, trackio, and experiment logger."""
         prefix = f"[{phase.upper()}]" if phase else ""
         print(f"\n{prefix} Epoch {epoch}: Loss={loss:.4f}")
         print(f"  Exact Match Acc: {metrics['exact_match_accuracy']:.4f}")
-        print(f"  Micro F1: {metrics['micro']['f1']:.4f} | Macro F1: {metrics['macro']['f1']:.4f}")
+        print(
+            f"  Micro F1: {metrics['micro']['f1']:.4f} | Macro F1: {metrics['macro']['f1']:.4f}"
+        )
 
         # Log to trackio
         if self.trackio_logger:
@@ -512,13 +556,15 @@ class Trainer:
         global_step = 0
 
         # Log training config
-        self.experiment_logger.log_config({
-            "num_epochs_head": num_epochs_head,
-            "num_epochs_finetune": num_epochs_finetune,
-            "train_samples": len(train_loader.dataset),
-            "val_samples": len(val_loader.dataset),
-            "scheduler": scheduler_type or "none",
-        })
+        self.experiment_logger.log_config(
+            {
+                "num_epochs_head": num_epochs_head,
+                "num_epochs_finetune": num_epochs_finetune,
+                "train_samples": len(train_loader.dataset),
+                "val_samples": len(val_loader.dataset),
+                "scheduler": scheduler_type or "none",
+            }
+        )
 
         # Phase 1: Train head only
         print("\n" + "=" * 60)
@@ -527,14 +573,23 @@ class Trainer:
 
         self.experiment_logger.start_iteration(
             "head_training",
-            {"phase": "head", "epochs": num_epochs_head, "lr": learning_rate, "scheduler": scheduler_type or "none"}
+            {
+                "phase": "head",
+                "epochs": num_epochs_head,
+                "lr": learning_rate,
+                "scheduler": scheduler_type or "none",
+            },
         )
 
         for param in self.model.backbone.parameters():
             param.requires_grad = False
 
         optimizer = optim.Adam(self.model.classifier.parameters(), lr=learning_rate)
-        scheduler = self._create_scheduler(optimizer, scheduler_type, num_epochs_head) if scheduler_type else None
+        scheduler = (
+            self._create_scheduler(optimizer, scheduler_type, num_epochs_head)
+            if scheduler_type
+            else None
+        )
         if scheduler:
             print(f"Using scheduler: {scheduler_type}")
 
@@ -555,9 +610,9 @@ class Trainer:
 
             if scheduler:
                 scheduler.step()
-                current_lr = optimizer.param_groups[0]['lr']
+                current_lr = optimizer.param_groups[0]["lr"]
                 if epoch % 5 == 0 or epoch == num_epochs_head - 1:
-                    print(f"  LR after epoch {epoch+1}: {current_lr:.6f}")
+                    print(f"  LR after epoch {epoch + 1}: {current_lr:.6f}")
 
             global_step += 1
 
@@ -570,14 +625,23 @@ class Trainer:
 
         self.experiment_logger.start_iteration(
             "finetuning",
-            {"phase": "finetune", "epochs": num_epochs_finetune, "lr": learning_rate / 10, "scheduler": scheduler_type or "none"}
+            {
+                "phase": "finetune",
+                "epochs": num_epochs_finetune,
+                "lr": learning_rate / 10,
+                "scheduler": scheduler_type or "none",
+            },
         )
 
         for param in self.model.parameters():
             param.requires_grad = True
 
         optimizer = optim.Adam(self.model.parameters(), lr=learning_rate / 10)
-        scheduler = self._create_scheduler(optimizer, scheduler_type, num_epochs_finetune) if scheduler_type else None
+        scheduler = (
+            self._create_scheduler(optimizer, scheduler_type, num_epochs_finetune)
+            if scheduler_type
+            else None
+        )
         if scheduler:
             print(f"Using scheduler: {scheduler_type}")
         best_val_f1 = 0.0
@@ -588,7 +652,9 @@ class Trainer:
 
             val_loss, val_metrics_dict = self.evaluate(val_loader, self.val_metrics)
 
-            self.log_metrics(epoch + 1, "finetune", val_loss, val_metrics_dict, global_step)
+            self.log_metrics(
+                epoch + 1, "finetune", val_loss, val_metrics_dict, global_step
+            )
             self.experiment_logger.log_iteration_metrics(val_metrics_dict)
 
             if val_metrics_dict["micro"]["f1"] > best_val_f1:
@@ -597,9 +663,9 @@ class Trainer:
 
             if scheduler:
                 scheduler.step()
-                current_lr = optimizer.param_groups[0]['lr']
+                current_lr = optimizer.param_groups[0]["lr"]
                 if epoch % 5 == 0 or epoch == num_epochs_finetune - 1:
-                    print(f"  LR after epoch {epoch+1}: {current_lr:.6f}")
+                    print(f"  LR after epoch {epoch + 1}: {current_lr:.6f}")
 
             global_step += 1
 
@@ -623,15 +689,16 @@ class Trainer:
         print("=" * 60)
 
         # Log training config
-        self.experiment_logger.log_config({
-            "num_epochs": num_epochs,
-            "train_samples": len(train_loader.dataset),
-            "val_samples": len(val_loader.dataset),
-        })
+        self.experiment_logger.log_config(
+            {
+                "num_epochs": num_epochs,
+                "train_samples": len(train_loader.dataset),
+                "val_samples": len(val_loader.dataset),
+            }
+        )
 
         self.experiment_logger.start_iteration(
-            "from_scratch",
-            {"epochs": num_epochs, "lr": learning_rate}
+            "from_scratch", {"epochs": num_epochs, "lr": learning_rate}
         )
 
         optimizer = optim.Adam(self.model.parameters(), lr=learning_rate)
@@ -675,12 +742,17 @@ class Trainer:
         # Update markdown summary for git tracking
         try:
             import subprocess
+
             script_path = PROJECT_ROOT / "scripts" / "update_experiments_summary.py"
             if script_path.exists():
-                subprocess.run(["python", str(script_path)], check=False, cwd=PROJECT_ROOT)
+                subprocess.run(
+                    ["python", str(script_path)], check=False, cwd=PROJECT_ROOT
+                )
                 summary_path = PROJECT_ROOT / "results" / "experiments" / "SUMMARY.md"
                 print(f"\nMarkdown summary updated: {summary_path}")
-                print(f"Git command: git add results/experiments/ && git commit -m 'Update experiments'")
+                print(
+                    f"Git command: git add results/experiments/ && git commit -m 'Update experiments'"
+                )
         except Exception as e:
             print(f"Note: Could not update markdown summary: {e}")
 

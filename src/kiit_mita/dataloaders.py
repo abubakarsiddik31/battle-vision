@@ -16,8 +16,9 @@ from .dataset import KiitMitaDataset
 
 
 # Dataset paths
-DATASET_ROOT = "/home/abubakar/Desktop/Research/DL-assignment/KIIT-MiTA"
-DATA_DIR = "/home/abubakar/Desktop/Research/DL-assignment/data"
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+DATASET_ROOT = str(PROJECT_ROOT / "KIIT-MiTA")
+DATA_DIR = str(PROJECT_ROOT / "data")
 
 # ImageNet normalization values
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
@@ -146,7 +147,9 @@ class TrainTransforms:
 
         # Gaussian blur
         if self.gaussian_blur and np.random.random() > 0.7:
-            img = img.filter(ImageFilter.GaussianBlur(radius=np.random.uniform(0.1, 2.0)))
+            img = img.filter(
+                ImageFilter.GaussianBlur(radius=np.random.uniform(0.1, 2.0))
+            )
 
         return img
 

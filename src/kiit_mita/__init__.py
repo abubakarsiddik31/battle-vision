@@ -10,7 +10,7 @@ __version__ = "0.1.0"
 from .dataset import KiitMitaDataset, load_metadata
 
 # Load metadata
-_metadata = load_metadata("/home/abubakar/Desktop/Research/DL-assignment/data/metadata.json")
+_metadata = load_metadata("data/metadata.json")
 METADATA = _metadata
 CLASS_NAMES = _metadata["class_names"]
 NUM_CLASSES = _metadata["num_classes"]
