@@ -1,13 +1,14 @@
 # Experiments Summary
 
-Generated: 2026-03-10 00:17:00
+Generated: 2026-03-12 19:47:46
 
-Total Experiments: 41
+Total Experiments: 42
 
 ## Quick Reference
 
 | Date | Experiment | Architecture | Pretrained | Micro F1 | Acc | Tags |
 |------|------------|--------------|------------|----------|-----|------|
+| 2026-03-12 | battlenet_imagenet_20260312_123922 | battlenet | imagenet | 0.7846 | 0.6176 | battlenet,novel-arch |
 | 2026-03-10 | swin_t_imagenet_20260310_000948 | swin_t | imagenet | 0.7599 | 0.5941 | swin_t,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_235144 | swin_t | imagenet | 0.8112 | 0.6765 | swin_t,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_234258 | swin_t | imagenet | 0.8271 | 0.6941 | swin_t,imagenet |
@@ -51,6 +52,45 @@ Total Experiments: 41
 | 2026-03-09 | resnet50_imagenet_20260309_030219 | resnet50 | imagenet | 0.3470 | 0.1529 | baseline,resnet50,in |
 
 ## Detailed Results
+
+### battlenet_imagenet_20260312_123922
+
+**ID:** `4beb603d`
+
+**Date:** 2026-03-12T12:39:23.116491
+
+**Duration:** 25702.1s
+
+**Tags:** `battlenet`, `novel-architecture`, `dual-backbone`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `battlenet`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 16
+- Optimizer: `adamw`
+
+**Results:**
+- Exact Match Accuracy: 0.6176470588235294
+- Micro F1: 0.7845804988662132
+- Micro Precision: 0.7757847533632287
+- Micro Recall: 0.7935779816513762
+- Macro F1: 0.8063006545502588
+
+**Per-Class F1:**
+- Artilary: 0.9
+- Missile: 0.7777777777777777
+- Radar: 0.9411764705882353
+- M. Rocket Launcher: 0.888888888888889
+- Soldier: 0.684931506849315
+- Tank: 0.7631578947368421
+- Vehicle: 0.6881720430107526
+
+---
 
 ### swin_t_imagenet_20260310_000948
 

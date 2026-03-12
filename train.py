@@ -69,6 +69,8 @@ def parse_args():
             "mobilenet_v2", "mobilenet_v3_small", "mobilenet_v3_large",
             # ConvNeXt (modern CNN)
             "convnext_tiny", "convnext_small", "convnext_base",
+            # BattleNet (novel dual-backbone hybrid fusion)
+            "battlenet",
             # Custom baseline
             "custom_cnn",
         ],

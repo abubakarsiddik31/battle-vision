@@ -4,6 +4,7 @@ CNN models for KIIT-MiTA multi-label classification.
 Includes:
 1. Transfer learning models (ResNet, EfficientNet, ViT)
 2. Custom CNN baseline
+3. BattleNet - Novel dual-backbone hybrid fusion architecture
 """
 
 from typing import Optional
@@ -404,6 +405,204 @@ def create_swin_variant(variant: str, num_classes: int = 7, pretrained: bool = T
     return MultiLabelClassifier(backbone, num_classes)
 
 
+class SqueezeExcitation(nn.Module):
+    """Channel-wise SE recalibration: learns to amplify useful feature channels."""
+
+    def __init__(self, channels: int, reduction: int = 16):
+        super().__init__()
+        mid = max(channels // reduction, 8)
+        self.fc = nn.Sequential(
+            nn.Linear(channels, mid),
+            nn.ReLU(inplace=True),
+            nn.Linear(mid, channels),
+            nn.Sigmoid(),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return x * self.fc(x)
+
+
+class LabelCoOccurrence(nn.Module):
+    """
+    Learnable label co-occurrence module.
+
+    After the direct head produces per-class logits, this module refines them
+    by allowing each class prediction to be informed by all other class predictions
+    via a learned interaction matrix. This is applied to logits (not features),
+    so scale is controlled and there's no explosion risk.
+    """
+
+    def __init__(self, num_classes: int):
+        super().__init__()
+        # Init as identity + small perturbation — starts as pass-through
+        self.W = nn.Parameter(torch.eye(num_classes) + torch.randn(num_classes, num_classes) * 0.01)
+        self.bias = nn.Parameter(torch.zeros(num_classes))
+
+    def forward(self, logits: torch.Tensor) -> torch.Tensor:
+        # logits: (B, C) — apply learned label interaction
+        return logits + torch.matmul(logits, self.W.t()) * 0.1 + self.bias
+
+
+class BattleNetBackbone(nn.Module):
+    """
+    Dual-backbone module: EfficientNet-V2-S (CNN) + Swin-T (Transformer).
+
+    Treated as the frozen 'backbone' during Phase 1 training, then
+    unfrozen for end-to-end fine-tuning in Phase 2.
+    """
+
+    def __init__(self, pretrained: bool = True):
+        super().__init__()
+
+        # CNN Branch: EfficientNet-V2-S — strong local texture/shape features
+        try:
+            from torchvision.models import efficientnet_v2_s, EfficientNet_V2_S_Weights
+            self.cnn = efficientnet_v2_s(
+                weights=EfficientNet_V2_S_Weights.IMAGENET1K_V1 if pretrained else None
+            )
+            self.cnn_dim = self.cnn.classifier[-1].in_features  # 1280
+            self.cnn.classifier = nn.Identity()
+        except ImportError:
+            raise RuntimeError("torchvision required for BattleNet")
+
+        # Transformer Branch: Swin-T — strong global context features
+        try:
+            from torchvision.models import swin_t, Swin_T_Weights
+            self.transformer = swin_t(
+                weights=Swin_T_Weights.IMAGENET1K_V1 if pretrained else None
+            )
+            self.trans_dim = self.transformer.head.in_features  # 768
+            self.transformer.head = nn.Identity()
+        except ImportError:
+            raise RuntimeError("torchvision required for BattleNet")
+
+    def forward(self, x: torch.Tensor):
+        feat_cnn = self.cnn(x)        # (B, 1280)
+        feat_trans = self.transformer(x)  # (B, 768)
+        return feat_cnn, feat_trans
+
+
+class BattleNetClassifier(nn.Module):
+    """
+    BattleNet fusion head (v2):
+    - Projects both features to shared dim
+    - Bilinear interaction (Hadamard product of projections) captures cross-modal correlations
+    - SE channel recalibration on fused features
+    - Label co-occurrence refinement on logits
+    - Ensemble: direct head + co-occurrence head
+
+    All stable by design: no raw dot-product attention, proper normalization throughout.
+    """
+
+    def __init__(self, cnn_dim: int, trans_dim: int, num_classes: int = 7,
+                 fusion_dim: int = 512, dropout: float = 0.3):
+        super().__init__()
+
+        # Project CNN features to fusion_dim
+        self.cnn_proj = nn.Sequential(
+            nn.Linear(cnn_dim, fusion_dim),
+            nn.LayerNorm(fusion_dim),
+            nn.GELU(),
+        )
+
+        # Project Transformer features to fusion_dim
+        self.trans_proj = nn.Sequential(
+            nn.Linear(trans_dim, fusion_dim),
+            nn.LayerNorm(fusion_dim),
+            nn.GELU(),
+        )
+
+        # Bilinear fusion: combine additive, multiplicative, and concatenated signals
+        # [f_cnn + f_trans, f_cnn * f_trans] -> fusion_dim via MLP
+        self.fusion_mlp = nn.Sequential(
+            nn.Linear(fusion_dim * 3, fusion_dim),  # [cnn, trans, cnn*trans]
+            nn.LayerNorm(fusion_dim),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.Linear(fusion_dim, fusion_dim),
+            nn.LayerNorm(fusion_dim),
+            nn.GELU(),
+            nn.Dropout(dropout),
+        )
+
+        # SE channel recalibration — learns which fused channels are most discriminative
+        self.se = SqueezeExcitation(fusion_dim, reduction=16)
+
+        # Direct multi-label head
+        self.direct_head = nn.Linear(fusion_dim, num_classes)
+
+        # Label co-occurrence refinement (applied on logits — no scale explosion)
+        self.label_cooccur = LabelCoOccurrence(num_classes)
+
+    def forward(self, backbone_output):
+        feat_cnn, feat_trans = backbone_output
+
+        # Project to shared space
+        c = self.cnn_proj(feat_cnn)    # (B, D)
+        t = self.trans_proj(feat_trans)  # (B, D)
+
+        # Bilinear fusion: concat [additive, multiplicative, CNN-only] signals
+        # The element-wise product c*t captures feature co-activation patterns
+        fused_input = torch.cat([c + t, c * t, c - t], dim=-1)  # (B, 3D)
+        fused = self.fusion_mlp(fused_input)   # (B, D)
+
+        # SE recalibration
+        fused = self.se(fused)
+
+        # Classification
+        logits = self.direct_head(fused)
+
+        # Label co-occurrence refinement (small residual correction)
+        logits = self.label_cooccur(logits)
+
+        return logits
+
+
+class BattleNet(nn.Module):
+    """
+    BattleNet: Novel dual-backbone hybrid fusion architecture for
+    multi-label military object classification in miniature art.
+
+    Key design principles:
+    1. Dual pretrained backbones — EfficientNet-V2-S for local CNN features
+       (texture, shape, camouflage detail) + Swin-T for global transformer
+       features (spatial relationships, scene context)
+    2. Bilinear interaction fusion — captures pairwise feature correlations
+       between CNN and Transformer branches via element-wise products
+    3. SE channel recalibration — amplifies the most task-relevant feature channels
+    4. Label co-occurrence refinement — learnable interaction matrix corrects
+       predictions by modeling which objects co-appear (tanks with soldiers, etc.)
+
+    Compatible with Trainer's 2-phase strategy:
+    - Phase 1: backbone frozen → train fusion head only
+    - Phase 2: end-to-end fine-tuning at lower LR
+    """
+
+    def __init__(self, num_classes: int = 7, pretrained: bool = True,
+                 fusion_dim: int = 512, dropout: float = 0.3):
+        super().__init__()
+
+        self.backbone = BattleNetBackbone(pretrained=pretrained)
+
+        self.classifier = BattleNetClassifier(
+            cnn_dim=self.backbone.cnn_dim,
+            trans_dim=self.backbone.trans_dim,
+            num_classes=num_classes,
+            fusion_dim=fusion_dim,
+            dropout=dropout,
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        backbone_out = self.backbone(x)
+        logits = self.classifier(backbone_out)
+        return logits
+
+
+def create_battlenet(num_classes: int = 7, pretrained: bool = True) -> nn.Module:
+    """Create a BattleNet dual-backbone hybrid fusion classifier."""
+    return BattleNet(num_classes=num_classes, pretrained=pretrained)
+
+
 def create_efficientnet_variant_v2(variant: str, num_classes: int = 7, pretrained: bool = True) -> nn.Module:
     """Create EfficientNet-V2 variants (efficientnet_v2_s, efficientnet_v2_m, efficientnet_v2_l)."""
     try:
@@ -435,7 +634,7 @@ def create_model(model_type: str = "resnet18", num_classes: int = 7, pretrained:
                       'densenet121', 'densenet161', 'densenet169', 'densenet201',
                       'mobilenet_v2', 'mobilenet_v3_small', 'mobilenet_v3_large',
                       'convnext_tiny', 'convnext_small', 'convnext_base',
-                      'custom_cnn')
+                      'battlenet', 'custom_cnn')
         num_classes: Number of output classes
         pretrained: Whether to use pre-trained weights (for transfer learning models)
 
@@ -461,6 +660,8 @@ def create_model(model_type: str = "resnet18", num_classes: int = 7, pretrained:
         return create_mobilenet_variant(model_type, num_classes, pretrained)
     elif model_type.startswith("convnext"):
         return create_convnext_variant(model_type, num_classes, pretrained)
+    elif model_type == "battlenet":
+        return create_battlenet(num_classes, pretrained)
     elif model_type == "custom_cnn":
         return CustomCNN(num_classes)
     else:
