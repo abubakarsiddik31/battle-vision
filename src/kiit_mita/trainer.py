@@ -460,6 +460,7 @@ class Trainer:
 
             optimizer.zero_grad()
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), 1.0)
             optimizer.step()
 
             probs = torch.sigmoid(logits)
@@ -637,6 +638,7 @@ class Trainer:
             param.requires_grad = True
 
         optimizer = optim.Adam(self.model.parameters(), lr=learning_rate / 10)
+
         scheduler = (
             self._create_scheduler(optimizer, scheduler_type, num_epochs_finetune)
             if scheduler_type

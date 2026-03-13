@@ -1,13 +1,17 @@
 # Experiments Summary
 
-Generated: 2026-03-12 19:47:46
+Generated: 2026-03-13 22:09:04
 
-Total Experiments: 42
+Total Experiments: 46
 
 ## Quick Reference
 
 | Date | Experiment | Architecture | Pretrained | Micro F1 | Acc | Tags |
 |------|------------|--------------|------------|----------|-----|------|
+| 2026-03-13 | battlenet_imagenet_20260313_211332 | battlenet | imagenet | 0.7907 | 0.6529 | battlenet,imagenet |
+| 2026-03-13 | battlenet_imagenet_20260313_200219 | battlenet | imagenet | 0.8159 | 0.6706 | battlenet,imagenet |
+| 2026-03-13 | battlenet_imagenet_20260313_185838 | battlenet | imagenet | 0.8178 | 0.6706 | battlenet,imagenet |
+| 2026-03-13 | swin_t_imagenet_20260313_180820 | swin_t | imagenet | 0.8121 | 0.6765 | swin_t,imagenet |
 | 2026-03-12 | battlenet_imagenet_20260312_123922 | battlenet | imagenet | 0.7846 | 0.6176 | battlenet,novel-arch |
 | 2026-03-10 | swin_t_imagenet_20260310_000948 | swin_t | imagenet | 0.7599 | 0.5941 | swin_t,imagenet |
 | 2026-03-09 | swin_t_imagenet_20260309_235144 | swin_t | imagenet | 0.8112 | 0.6765 | swin_t,imagenet |
@@ -52,6 +56,162 @@ Total Experiments: 42
 | 2026-03-09 | resnet50_imagenet_20260309_030219 | resnet50 | imagenet | 0.3470 | 0.1529 | baseline,resnet50,in |
 
 ## Detailed Results
+
+### battlenet_imagenet_20260313_211332
+
+**ID:** `1bcdda6c`
+
+**Date:** 2026-03-13T21:13:33.921544
+
+**Duration:** 3329.0s
+
+**Tags:** `battlenet`, `imagenet`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `battlenet`
+- Pretrained: `imagenet`
+- Epochs: 40
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.6529411764705882
+- Micro F1: 0.7906976744186046
+- Micro Precision: 0.8018867924528302
+- Micro Recall: 0.7798165137614679
+- Macro F1: 0.8063104980591467
+
+**Per-Class F1:**
+- Artilary: 0.8717948717948718
+- Missile: 0.7450980392156863
+- Radar: 0.9411764705882353
+- M. Rocket Launcher: 0.8571428571428571
+- Soldier: 0.7462686567164178
+- Tank: 0.7945205479452055
+- Vehicle: 0.6881720430107526
+
+---
+
+### battlenet_imagenet_20260313_200219
+
+**ID:** `7af797c2`
+
+**Date:** 2026-03-13T20:02:21.151745
+
+**Duration:** 3693.3s
+
+**Tags:** `battlenet`, `imagenet`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `battlenet`
+- Pretrained: `imagenet`
+- Epochs: 45
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.6705882352941176
+- Micro F1: 0.8158508158508159
+- Micro Precision: 0.8293838862559242
+- Micro Recall: 0.8027522935779816
+- Macro F1: 0.8261683571684638
+
+**Per-Class F1:**
+- Artilary: 0.8500000000000001
+- Missile: 0.816326530612245
+- Radar: 0.9411764705882353
+- M. Rocket Launcher: 0.8363636363636364
+- Soldier: 0.7647058823529412
+- Tank: 0.8219178082191781
+- Vehicle: 0.7526881720430109
+
+---
+
+### battlenet_imagenet_20260313_185838
+
+**ID:** `6ead66b5`
+
+**Date:** 2026-03-13T18:58:38.960097
+
+**Duration:** 2704.0s
+
+**Tags:** `battlenet`, `imagenet`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `battlenet`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.6705882352941176
+- Micro F1: 0.8177570093457944
+- Micro Precision: 0.8333333333333334
+- Micro Recall: 0.8027522935779816
+- Macro F1: 0.8318880051183575
+
+**Per-Class F1:**
+- Artilary: 0.8947368421052632
+- Missile: 0.816326530612245
+- Radar: 0.9433962264150944
+- M. Rocket Launcher: 0.8679245283018867
+- Soldier: 0.7536231884057971
+- Tank: 0.7945205479452055
+- Vehicle: 0.7526881720430109
+
+---
+
+### swin_t_imagenet_20260313_180820
+
+**ID:** `fa1d028a`
+
+**Date:** 2026-03-13T18:08:21.425023
+
+**Duration:** 2505.7s
+
+**Tags:** `swin_t`, `imagenet`
+
+**Notes:** See full experiment file for details
+
+**Configuration:**
+- Architecture: `swin_t`
+- Pretrained: `imagenet`
+- Epochs: 30
+- LR Head: 0.001
+- LR Finetune: 0.0001
+- Batch Size: 32
+- Optimizer: `adam`
+
+**Results:**
+- Exact Match Accuracy: 0.6764705882352942
+- Micro F1: 0.8120649651972158
+- Micro Precision: 0.8215962441314554
+- Micro Recall: 0.8027522935779816
+- Macro F1: 0.8241364728295926
+
+**Per-Class F1:**
+- Artilary: 0.8717948717948718
+- Missile: 0.7755102040816326
+- Radar: 0.9811320754716981
+- M. Rocket Launcher: 0.8148148148148148
+- Soldier: 0.8000000000000002
+- Tank: 0.7945205479452055
+- Vehicle: 0.7311827956989247
+
+---
 
 ### battlenet_imagenet_20260312_123922
 
